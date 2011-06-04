@@ -127,6 +127,7 @@
 -(void) selected {
 	if(toggleMode == NO)
 	{
+		TRACE(@"TAP");
 		[self removeChild:back cleanup:NO];
 		[self addChild:backPressed];
 		//back.visible = YES;

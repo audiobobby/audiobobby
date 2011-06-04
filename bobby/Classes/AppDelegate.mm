@@ -77,27 +77,8 @@
 	}
 	
 	[[Properties sharedProperties] load];
-		
-	if([[Properties sharedProperties] isLowResIPhone] == YES)
-	{
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"shield.caf"];
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"back.caf"];
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"blast.caf"];
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"arrow_fly.caf"];
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"arrow_hit.caf"];
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"cannon_fly.caf"];
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"fireball_fly.caf"];
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"grunt1.caf"];
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"grunt2.caf"];
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"grunt3.caf"];
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"grunt4.caf"];
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"dying.caf"];
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"whinny.caf"];
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"iceball_fly.caf"];
-		[[SimpleAudioEngine sharedEngine] preloadEffect:@"pellet_fly.caf"];
-	}
-	
-	[[SimpleAudioEngine sharedEngine] preloadEffect:@"spear_fly.caf"];
+
+	//[[SimpleAudioEngine sharedEngine] preloadEffect:@"spear_fly.caf"];
 	
 	if([Properties sharedProperties].audio == NO) {
 		[[SimpleAudioEngine sharedEngine] setEffectsVolume:0];
@@ -105,7 +86,7 @@
 		[[SimpleAudioEngine sharedEngine] setEffectsVolume:[Properties sharedProperties].effectVolume];
 	}
 	
-	[[MusicPlayer sharedMusicPlayer] selectSong:@"main"];
+	//[[MusicPlayer sharedMusicPlayer] selectSong:@"main"];
 	
 	////////////////
 	
@@ -178,7 +159,11 @@
 	
 	
 	// and run it!
+#if !DEBUG_MODE
 	[director runWithScene: [MainScene scene]];
+#else
+	[director runWithScene: [GameScene scene]];
+#endif
 	//[director runWithScene: [IntroScene scene]];
 	
 	// Turn on multiple touches

@@ -10,7 +10,24 @@
 #import "cocos2d.h"
 #import "Box2D.h"
 
-@interface Actor : CCNode 
+
+typedef enum {
+	AnimationRunning,
+	AnimationJumping,
+	AnimationPrelanding,
+	AnimationLanding,
+	AnimationFalling,
+	AnimationIdle
+} Animation;
+
+typedef enum {
+	MoveActionIdle,
+	MoveActionLeft,
+	MoveActionRight,
+	MoveActionJump
+} MoveAction;
+
+@interface Actor : CCNode <GameDelegate>
 {
 	CCSprite *sprite;
 	int num;
@@ -25,6 +42,7 @@
 	BOOL justLanded;
 	float radius;
 	float rotate;
+	float speed;
 	b2Fixture *fixture;
 	b2Body *body;
 }
@@ -36,8 +54,8 @@
 @property (nonatomic, assign) float rotate;
 @property (nonatomic, assign) b2Fixture *fixture;
 @property (nonatomic, assign) b2Body *body;
+@property (nonatomic, assign) int mode;
 
-- (void) setMode:(int)val;
-- (int) getMode;
+- (void) addToWorld:(b2World *)world location:(CGPoint)pos;
 
 @end

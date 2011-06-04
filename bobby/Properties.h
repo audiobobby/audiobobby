@@ -68,27 +68,12 @@ typedef enum {
 
 typedef enum {
 	ObjectTypePlatform,
-	ObjectTypeUnicorn,
-	ObjectTypeArrow,
-	ObjectTypeCannonball,
-	ObjectTypeFireball,
-	ObjectTypePellet,
-	ObjectTypeSpear,
-	ObjectTypeIceball,
-	ObjectTypeSpitball,
+	ObjectTypeActor,
 	ObjectTypeInactive,
 	ObjectTypeRemoving,
 } ObjectType;
 
 
-typedef enum {
-	ModeRunning,
-	ModeJumping,
-	ModePrelanding,
-	ModeLanding,
-	ModeFalling,
-	ModeIdle
-} Mode;
 
 @interface Properties : NSObject 
 {
@@ -178,6 +163,7 @@ typedef enum {
 - (int) hit;
 - (int) currentLevel;
 - (int) nextLevel;
+- (void) move:(int)move;
 - (void) operationCompleted:(int)operation;
 - (void) hideMessage;
 - (void) addPoints:(int)points;

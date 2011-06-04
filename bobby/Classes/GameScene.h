@@ -36,6 +36,7 @@
 	BOOL upgradeVisible;
 }
 
+
 +(id) scene;
 
 

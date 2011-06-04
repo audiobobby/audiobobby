@@ -26,10 +26,6 @@
 	
 	b2World *world;
 
-	int groundBodyIndex;
-	int groundCounter;
-	float groundWidth;
-	
 	
 	GLESDebugDraw *m_debugDraw;
 	int counter;
@@ -51,40 +47,21 @@
 	BOOL started;
 	BOOL dying;
 	
-	float speedStep;
-	BOOL galloping;
-	uint gallopId;
+	b2Fixture *groundFixture, *wallFixture;;
 	BOOL destroyed;
-	float newPosition;
 
 	float gravityRatio;
-	BOOL shieldActive;
-	int trailTotal;
-	CGPoint trail[TRAIL_TOTAL];
-	CGPoint pa, pc;
-	float lineWidthRatio;
-	float lineAlpha;
 	
-	int shotTable[MAX_SHOT];
-	int totalShots;
-	int currentShot;
-	float delayOffset;
-	int concurrent;
-	BOOL reshuffle;
-	BOOL following;
 	BOOL firstRun;
-	int shieldCounter, shieldCounterMax;
-	float shieldDiff;
 	float timestamp;
 	NSDate *startTime;
 }
 
 @property (nonatomic, assign) id <GameDelegate> delegate;
-//@property (nonatomic, assign) float speed;
+@property (nonatomic, assign) Actor *actor;
 
 - (void) initRun;
 - (void) endRun;
-- (void) stopFollow;
 - (void) destroy;
 
 @end
