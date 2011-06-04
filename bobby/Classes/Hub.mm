@@ -1,0 +1,221 @@
+//
+//  Hub.m
+//  Balloons
+//
+//  Created by Mehayhe on 7/18/10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//
+
+#import "Hub.h"
+#import "Button.h"
+
+@implementation Hub
+
+@synthesize delegate;
+
+
+-(id) init
+{
+	if( (self=[super init])) 
+	{	
+		TRACE(@"init hub");
+		self.anchorPoint = ccp(0, 0);
+		CGSize winSize = [[CCDirector sharedDirector] winSize];
+		
+		numFormatter = [[NSNumberFormatter alloc] init];
+		[numFormatter setNumberStyle:NSNumberFormatterDecimalStyle];	
+				
+		//lifeArray = [[NSMutableArray alloc] initWithCapacity:MAX_LIVES];
+		
+		int padding = ([[Properties sharedProperties] isIPad]) ? 60 : 30;
+		int buttonWidth = 40;
+		
+//#if defined(MULTI_LIVES)
+//		int x = hubTopPadding;
+//		for (int i = 0; i < MAX_LIVES; i++) 
+//		{
+//			CCSprite *heart = [CCSprite spriteWithFile:@"heart.png"];
+//			heart.position = ccp(x, winSize.height - hubTopPadding);
+//			[self addChild:heart];
+//			[lifeArray addObject:heart];
+//			x += heart.contentSize.width * 1.2;
+//		}
+//#else
+//		e1 = ccp(hubTopPadding*0.75, winSize.height - hubTopPadding*0.75);
+//		e2 = ccp(e1.x + winSize.width / 5.0, e1.y - hubTopPadding*0.5);
+//		lifeMaxWidth = e2.x - e1.x;
+//		lifeWidth = lifeMaxWidth;
+//		step = ([[Properties sharedProperties] isHighRes]) ? 2.0 : 1.0;
+//#endif
+		
+		scoreLabel = [CCLabelBMFont labelWithString:@"0" fntFile:[[Properties sharedProperties] fontNameForType:FontTypeScore]];
+		scoreLabel.anchorPoint = ccp(0.5, 0.5);
+		scoreLabel.position = ccp(padding, winSize.height - padding);
+		[self addChild:scoreLabel];
+				
+		CGPoint location = ccp(winSize.width - padding, winSize.height - padding);
+		pauseButton = [Button buttonWithImage:PNG(@"btnPause") onImage:PNG(@"btnPause") atPosition:location target:self selector:@selector(onPause:)];
+		pauseButton.anchorPoint = ccp(0, 0);
+		[self addChild:pauseButton];
+		
+		leftBtn = [Button buttonWithImage:PNG(@"btnPause") onImage:PNG(@"btnPause") 
+															atPosition:ccp(padding, padding) target:self selector:@selector(onAction:)];
+		//leftBtn.anchorPoint = ccp(0, 0);
+		[self addChild:leftBtn];
+
+		rightBtn = [Button buttonWithImage:PNG(@"btnPause") onImage:PNG(@"btnPause") 
+															atPosition:ccp(padding + buttonWidth, padding) target:self selector:@selector(onAction:)];
+		//rightBtn.anchorPoint = ccp(0, 0);
+		[self addChild:rightBtn];
+		
+		jumpBtn = [Button buttonWithImage:PNG(@"btnPause") onImage:PNG(@"btnPause") 
+															atPosition:ccp(winSize.width-padding, padding) target:self selector:@selector(onAction:)];
+		//jumpBtn.anchorPoint = ccp(1, 0);
+		[self addChild:jumpBtn];
+		
+		//self.position = ccp(0, winSize.height + winSize.height/10.0);
+	}
+	return self;
+}
+
+- (void) onAction:(id)sender
+{
+	if(sender == leftBtn)
+	{
+		
+	}
+}
+
+- (void) show 
+{
+	self.visible = YES;
+	id action1 = [CCMoveTo actionWithDuration: 1 position:ccp(0, 0)];
+	id action2 = [CCCallFuncN actionWithTarget:self selector:@selector(showCompleted:)]; 
+	id seq = [CCSequence actions:[CCEaseOut actionWithAction:action1 rate:2], action2, nil];
+	//id seq = [CCSequence actions:action1, action2, nil];
+	[self runAction:seq];	
+	
+	[self schedule:@selector(updateBar) interval:1/30.0];
+}
+
+- (void) hide
+{
+	id action1 = [CCMoveTo actionWithDuration: 0.5 position:ccp(0, [CCDirector sharedDirector].winSize.height + [CCDirector sharedDirector].winSize.height/10.0)]; 
+	id action2 = [CCCallFuncN actionWithTarget:self selector:@selector(hideCompleted:)]; 
+	id seq = [CCSequence actions:[CCEaseIn actionWithAction:action1 rate:2], action2, nil];
+	//id seq = [CCSequence actions:action1, action2, nil];
+	[self runAction:seq];	
+	[self unschedule:@selector(updateBar)];
+}
+
+
+- (void) showCompleted:(id)node
+{
+
+}
+
+- (void) hideCompleted:(id)node
+{
+	self.visible = YES;	
+}
+
+- (void) reset
+{
+	lifeWidth = lifeMaxWidth;
+	lives = MAX_LIVES;
+}
+
+/*
+- (void) updateBar
+{
+	float width = (lifeMaxWidth * (lives/(float)MAX_LIVES)); 
+	
+	if(width < lifeWidth) {
+		lifeWidth = lifeWidth - step;
+		//TRACE(@"%f, %f", width, lifeWidth);
+		if(width > lifeWidth) lifeWidth = width;
+		//TRACE(@"==%f, %f", width, lifeWidth);
+	} else if(width > lifeWidth) {
+		lifeWidth = lifeWidth + step;
+		if(width < lifeWidth) lifeWidth = width;
+	} 
+}
+
+- (void) drawRectP1:(CGPoint)p1 p2:(CGPoint)p2 close:(BOOL)close
+{
+	CGPoint vert[] = { ccp(p1.x, p1.y), ccp(p2.x, p1.y), ccp(p2.x, p2.y), ccp(p1.x, p2.y) };
+	ccDrawPoly(vert, 4, close);
+}
+	
+-(void) draw
+{
+	glEnable(GL_LINE_SMOOTH);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
+	glColor4ub(0, 0, 0, 100);
+	glLineWidth(1);
+	[self drawRectP1:e1 p2:e2 close:YES];
+	
+	glColor4ub(255, 0, 0, 255);
+	[self drawRectP1:e1 p2:ccp(e1.x + lifeWidth, e2.y) close:YES];
+	
+	glColor4ub(255, 255, 255, 255);
+	glLineWidth(2);
+	[self drawRectP1:e1 p2:e2 close:NO];
+	ccDrawLine(ccp(e1.x, e1.y), ccp(e1.x, e2.y));
+											 
+	glDisable(GL_LINE_SMOOTH);
+	glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
+	glEnableClientState(GL_COLOR_ARRAY);
+}
+*/
+
+- (void) onPause:(ButtonItem *)button
+{
+	[delegate pauseGame];
+}
+
+- (void) setScore:(int)val
+{
+	[scoreLabel setString:[numFormatter stringForObjectValue: [NSNumber numberWithInt:val]]];
+}
+
+- (void) setLevel:(int)val
+{
+	[scoreLabel setString:[numFormatter stringForObjectValue: [NSNumber numberWithInt:val]]];
+}
+
+- (void) setLife:(int)val
+{
+	TRACE(@"set life:%d", val);
+	lives = val;
+	//lifeWidth = (lifeMaxWidth * (lives/(float)MAX_LIVES)); 
+	/*
+	for(int i = 0; i < MAX_LIVES; i++)
+	{
+		CCSprite *heart = [lifeArray objectAtIndex:i];
+		[heart setOpacity:(val >= i+1) ? 255 : 70];
+	}*/
+}
+
+- (void) setInfo:(NSString *)info
+{
+	//[infoLabel setString:info];
+}
+
+- (void) dealloc
+{
+	TRACE(@"dealloc hub");
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+//	for(CCSprite *sprite in lifeArray)
+//	{
+//		[self removeChild:sprite cleanup:YES];
+//	}
+	[self removeAllChildrenWithCleanup:YES];
+	[numFormatter release];
+	//[lifeArray release];
+	[super dealloc];
+}
+
+@end
