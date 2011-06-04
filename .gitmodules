@@ -1,0 +1,3 @@
+[submodule "vendors/AudioGameKit"]
+	path = vendors/AudioGameKit
+	url = git@github.com:audiobobby/AudioGameKit.git
