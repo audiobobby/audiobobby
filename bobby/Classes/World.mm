@@ -6,6 +6,8 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
+#import "SingleWaveBar.h"
+
 #import "World.h"
 #import "Actor.h"
 #import "SimpleAudioEngine.h"
@@ -28,6 +30,20 @@
 
 @synthesize delegate, actor;
 
+- (void)omidUpdate2
+{
+    for (SingleWaveBar *bar in bars) {
+        
+        if (bar.barSprite.position.y >= ((bar.barSprite.contentSize.height/2)+50)) {
+            bar.tempWaveDirection = -1;
+        }
+        if (bar.barSprite.position.y <= -13) {
+            bar.tempWaveDirection = 1;
+        }
+        
+        bar.barSprite.position = ccpAdd(bar.barSprite.position, CGPointMake(0.0, 7*bar.tempWaveDirection));
+    }
+}
 
 -(id) init
 {
@@ -57,6 +73,22 @@
 		contactListener = new MyContactListener();
 		world->SetContactListener(contactListener);
 
+        bars = [[NSMutableArray alloc] init];
+        
+        for (int i = 0; i < 10; i++) {
+            [bars addObject:[[SingleWaveBar alloc] initWithColumn:i]];
+            [[bars objectAtIndex:i] setBarHeight:(float)i/10.0];
+            
+            [self addChild:[[bars objectAtIndex:i] barSprite]];
+            //[self addChild:[[bars objectAtIndex:i] starSprite]];
+            
+        }
+        
+        CCSprite *lowerBar = [[CCSprite spriteWithFile:@"lowerBar.png"] retain];
+        
+        lowerBar.position = ccp(winSize.width/2, lowerBar.contentSize.height/2);
+        [self addChild:lowerBar];
+        
 #if DEBUG_PHYSIC
 		// Debug Draw functions
 
@@ -294,6 +326,8 @@
 
 -(void) update:(ccTime)dt
 {
+    [self omidUpdate2];
+    
 	int32 velocityIterations = 8;
 	int32 positionIterations = 1;
 	

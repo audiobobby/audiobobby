@@ -21,6 +21,8 @@
 
 @interface World : CCLayer <GameDelegate>
 {
+    NSMutableArray *bars;
+    
 	NSMutableArray *bullets;
 	NSMutableArray *shieldPaths;
 	NSMutableArray *groundAngles;
