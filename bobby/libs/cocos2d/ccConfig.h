@@ -114,7 +114,7 @@
  
  To enable set it to 1. Enabled by default.
  */
-#define CC_COCOSNODE_RENDER_SUBPIXEL 1
+#define CC_COCOSNODE_RENDER_SUBPIXEL 0
 
 /** @def CC_SPRITEBATCHNODE_RENDER_SUBPIXEL
  If enabled, the CCSprite objects rendered with CCSpriteBatchNode will be able to render in subpixels.
@@ -122,7 +122,7 @@
  
  To enable set it to 1. Enabled by default.
  */
-#define CC_SPRITEBATCHNODE_RENDER_SUBPIXEL	1
+#define CC_SPRITEBATCHNODE_RENDER_SUBPIXEL	0
 
 
 #if defined(__ARM_NEON__) || TARGET_IPHONE_SIMULATOR || defined(__MAC_OS_X_VERSION_MAX_ALLOWED)

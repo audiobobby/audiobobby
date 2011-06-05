@@ -29,7 +29,7 @@
 		[self addChild:sheet4];
 		[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"bobby.plist"];
 		
-		sprite = [CCSprite spriteWithSpriteFrameName:@"rb_0001.png"];
+		sprite = [CCSprite spriteWithSpriteFrameName:@"rb0001.png"];
 		[sprite.texture setAliasTexParameters];
 		[self addChild:sprite];
 		sprite.scale = ([[Properties sharedProperties] isLowResIPhone] == NO) ? 0.8 : 0.4;
@@ -39,7 +39,7 @@
 		allFrames = [[NSMutableArray alloc] initWithCapacity:10];
 		for(int i = 1; i <= 9; i++)
 		{
-			CCSpriteFrame *sf = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"rb_%04d.png",i]];
+			CCSpriteFrame *sf = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"rb%04d.png",i]];
 			[allFrames addObject:sf];
 			
 		}
@@ -90,7 +90,7 @@
 				{
 					TRACE(@"jump count: %d", jumpCount);
 					b2Vec2 center = self.body->GetWorldCenter();
-					float impulse = (grounded == YES) ? self.radius * 27 : self.radius * 15;
+					float impulse = (grounded == YES) ? self.radius * 20 : self.radius * 12;
 					self.body->ApplyLinearImpulse(b2Vec2(0.0, impulse), center);
 					[[SimpleAudioEngine sharedEngine] playEffect:@"jump.caf"];
 					self.mode = AnimationJumping;

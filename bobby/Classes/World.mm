@@ -15,7 +15,7 @@
 #import "Path.h"
 
 #if DEBUG_MODE
-	#define DEBUG_PHYSIC 0
+	#define DEBUG_PHYSIC 1
 #else
 	#define DEBUG_PHYSIC 0
 #endif
@@ -86,16 +86,9 @@
             
         }
         
-        /*
-        star = [SoundStar node];
-        star.delegate = self;
-        [star addToWorld:world location:ccp(150, 250)];
-        [self addChild:star z:8];
+    stars = [[NSMutableArray alloc] init];   
         
-        stars = [[NSMutableArray alloc] init];
         
-         [stars addObject:star];
-        */
         
         
         CCSprite *lowerBar = [[CCSprite spriteWithFile:@"lowerBar.png"] retain];
@@ -166,6 +159,7 @@
 }
 
 ///////////////
+
 
 - (float) angleFrom:(b2Vec2)p1 to:(b2Vec2)p2
 {
@@ -252,6 +246,8 @@
 - (void) startRun
 {
 	TRACE(@"[start run]");
+	
+	
 }
 
 - (void) endRun
@@ -421,34 +417,34 @@
 - (void) updateElements
 {		
 	
-	int total = [stars count];
-	for (int i = total - 1; i >= 0; i--) 
-	{
-		SoundStar *thisStar = [stars objectAtIndex:i];
-		if(thisStar.position.y < 0) {
-			[thisStar destroy:world];
-			[self removeChild:thisStar cleanup:YES];
-			[stars removeObjectAtIndex:i];
-		}
-	}
-	
-	
-	TRACE(@"total bullets, %d", [stars count]);
-		
-	if(moving == YES)
-	{
-		if(dying == YES)
-		{
-			b2Vec2 velocity = actor.body->GetLinearVelocity();
-			speed = speed * 0.7;
-			actor.body->SetLinearVelocity(b2Vec2(speed, velocity.y));
-			[delegate setBackgroundSpeed:speed/cloudSpeedRatio];
-			if(speed < 0.4)
-			{
-				[delegate endGame];
-			}
-		}
-	}
+//	int total = [stars count];
+//	for (int i = total - 1; i >= 0; i--) 
+//	{
+//		SoundStar *thisStar = [stars objectAtIndex:i];
+//		if(thisStar.position.y < 0) {
+//			[thisStar destroy:world];
+//			[self removeChild:thisStar cleanup:YES];
+//			[stars removeObjectAtIndex:i];
+//		}
+//	}
+//	
+//	
+//	TRACE(@"total bullets, %d", [stars count]);
+//		
+//	if(moving == YES)
+//	{
+//		if(dying == YES)
+//		{
+//			b2Vec2 velocity = actor.body->GetLinearVelocity();
+//			speed = speed * 0.7;
+//			actor.body->SetLinearVelocity(b2Vec2(speed, velocity.y));
+//			[delegate setBackgroundSpeed:speed/cloudSpeedRatio];
+//			if(speed < 0.4)
+//			{
+//				[delegate endGame];
+//			}
+//		}
+//	}
 	
 }
 
@@ -458,6 +454,14 @@
 	[self showActorAtLocation:ccp(winSize.width * 0.5, winSize.height * 0.25)];	
 	firstRun = NO;
 	timestamp = [startTime timeIntervalSinceNow]; 
+	
+	SoundStar *star = [SoundStar node];
+	[star addToWorld:world location:ccp(150, 250)];
+	[self addChild:star z:8];
+	star.delegate = self;
+	
+	
+	[stars addObject:star];
 }
 
 //- (void) removeBullet:(Bullet *)item
@@ -505,9 +509,7 @@
 	world = nil;
 	
 	[startTime release];
-	[bullets release];
-	[shieldPaths release];
-	[groundAngles release];
+	[stars release];
 	
 	[super dealloc];
 }

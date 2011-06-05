@@ -19,8 +19,6 @@
 #define kGameAutorotationCCDirector 1
 #define kGameAutorotationUIViewController 2
 
-#define CC_COCOSNODE_RENDER_SUBPIXEL 0
-#define CC_SPRITESHEET_RENDER_SUBPIXEL	0
 
 //
 // Define here the type of autorotation that you want for your game

@@ -69,6 +69,7 @@ typedef enum {
 typedef enum {
 	ObjectTypePlatform,
 	ObjectTypeActor,
+	ObjectTypeStar,
 	ObjectTypeInactive,
 	ObjectTypeRemoving,
 } ObjectType;
