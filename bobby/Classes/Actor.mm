@@ -30,6 +30,7 @@
 		[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"bobby.plist"];
 		
 		sprite = [CCSprite spriteWithSpriteFrameName:@"rb_0001.png"];
+		[sprite.texture setAliasTexParameters];
 		[self addChild:sprite];
 		sprite.scale = ([[Properties sharedProperties] isLowResIPhone] == NO) ? 0.8 : 0.4;
 		radius = (sprite.contentSize.height * 0.5) * sprite.scale;
@@ -164,7 +165,7 @@
 			break;	
 	}
 	totalFrames = [animationFrames count];
-	TRACE(@"frames: %d, %@", totalFrames, animationFrames);
+	//TRACE(@"frames: %d, %@", totalFrames, animationFrames);
 	if(mode != AnimationIdle) {
 		[self schedule:@selector(update:) interval:1/15.0];
 	}

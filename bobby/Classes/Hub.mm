@@ -10,6 +10,8 @@
 #import "Button.h"
 #import "Actor.h"
 
+#define HILITE_ALPHA 125;
+
 @implementation Hub
 
 @synthesize delegate, worldDelegate;
@@ -20,6 +22,7 @@
 	if( (self=[super init])) 
 	{	
 		TRACE(@"init hub");
+		self.isTouchEnabled = YES;
 		self.anchorPoint = ccp(0, 0);
 		CGSize winSize = [[CCDirector sharedDirector] winSize];
 		
@@ -62,17 +65,34 @@
 		pauseButton.anchorPoint = ccp(0, 0);
 		[self addChild:pauseButton];
 		
-		leftBtn = [Button buttonWithImage:PNG(@"btn_Left") onImage:PNG(@"btn_LeftHit") 
-													 atPosition:ccp(int(xpad + padding), padding) target:self selector:@selector(moveLeft:) rapid:YES];
+//		leftBtn = [Button buttonWithImage:PNG(@"btn_Left") onImage:PNG(@"btn_LeftHit") 
+//													 atPosition:ccp(int(xpad + padding), padding) target:self selector:@selector(moveLeft:) rapid:YES];
+//		[self addChild:leftBtn];
+//
+//		rightBtn = [Button buttonWithImage:PNG(@"btn_Right") onImage:PNG(@"btn_RightHit") 
+//														atPosition:ccp((int)(xpad + padding + buttonWidth*2), padding) target:self selector:@selector(moveRight:) rapid:YES];
+//		[self addChild:rightBtn];
+//		
+//		jumpBtn = [Button buttonWithImage:PNG(@"btn_Up") onImage:PNG(@"btn_UpHit") 
+//													 atPosition:ccp((int)winSize.width-padding - xpad, padding) target:self selector:@selector(moveUp:) rapid:YES];
+//		[self addChild:jumpBtn];
+		
+		leftBtn = [CCSprite spriteWithFile:PNG(@"btn_Left")];
+		leftBtn.position = ccp(int(xpad + padding), padding);
 		[self addChild:leftBtn];
-
-		rightBtn = [Button buttonWithImage:PNG(@"btn_Right") onImage:PNG(@"btn_RightHit") 
-														atPosition:ccp((int)(xpad + padding + buttonWidth*2), padding) target:self selector:@selector(moveRight:) rapid:YES];
+		
+		rightBtn = [CCSprite spriteWithFile:PNG(@"btn_Right")];
+		rightBtn.position = ccp((int)(xpad + padding + buttonWidth*2), padding);
 		[self addChild:rightBtn];
 		
-		jumpBtn = [Button buttonWithImage:PNG(@"btn_Up") onImage:PNG(@"btn_UpHit") 
-													 atPosition:ccp((int)winSize.width-padding - xpad, padding) target:self selector:@selector(moveUp:) rapid:YES];
+		jumpBtn = [CCSprite spriteWithFile:PNG(@"btn_Up")];
+		jumpBtn.position = ccp((int)winSize.width-padding - xpad, padding);
 		[self addChild:jumpBtn];
+		
+		[[CCTouchDispatcher sharedDispatcher] addTargetedDelegate:self priority:0 swallowsTouches:YES];
+
+		//controlArea = [ControlArea node];
+		//[self addChild:controlArea];
 		
 		//self.position = ccp(0, winSize.height + winSize.height/10.0);
 	}
@@ -86,17 +106,17 @@
 
 - (void) moveLeft:(Button *)button
 {
-	[actor move:MoveActionLeft];
+	//[actor move:MoveActionLeft];
 }
 
 - (void) moveRight:(Button *)button
 {
-	[actor move:MoveActionRight];
+	//[actor move:MoveActionRight];
 }
 
 - (void) moveUp:(Button *)button
 {
-	[actor move:MoveActionJump];
+	//[actor move:MoveActionJump];
 }
 
 - (void) show 
@@ -216,6 +236,209 @@
 {
 	//[infoLabel setString:info];
 }
+
+-(int) getTouchIdByPoint:(CGPoint) location
+{
+	int n = -1;
+	for(int i = 0; i < TOTAL_INSTANCES; i++)
+	{
+		if(touchInstance[i].active == NO) continue;
+		if(CGPointEqualToPoint(location, touchInstance[i].location) == 1)
+		{
+			n = i;
+			break;
+		}
+	}
+	return n;
+}
+
+-(int) getAvailableTouchInstances
+{
+	int n = -1;
+	for(int i = 0; i < TOTAL_INSTANCES; i++)
+	{
+		if(touchInstance[i].active == NO) {
+			n = i;
+			break;
+		}
+	}
+	if(n == -1) {
+		TRACE(@"random");
+			n = arc4random() % TOTAL_INSTANCES;
+	}
+	return n;
+}
+
+- (void) disableTouchInstanceWithId:(int)i
+{
+	touchInstance[i].active = NO;
+	switch (touchInstance[i].mode) {
+		case MoveActionLeft:
+			[actor move:MoveActionIdle];
+			leftBtn.opacity = 255;
+			touchLeft = nil;
+			break;
+			
+		case MoveActionRight:
+			[actor move:MoveActionIdle];
+			rightBtn.opacity = 255;
+			touchRight = nil;
+			break;
+			
+		case MoveActionJump:
+			[actor move:MoveActionIdle];
+			jumpBtn.opacity = 255;
+			touchUp = nil;
+			break;	
+	}
+}
+
+- (int) checkTouch:(UITouch *)touch location:(CGPoint)location
+{
+	int mode = MoveActionIdle;
+	if(location.y <= 60)
+	{
+		if(location.x > 55 && location.x <= 144) {
+			if(touch != touchLeft) {
+				touchLeft = touch;
+				leftBtn.opacity = HILITE_ALPHA;
+				[actor move:MoveActionLeft];
+			}
+			mode = MoveActionLeft;
+		}
+		else if(location.x > 144 && location.x <= 233) {
+			if(touch != touchRight) {
+				touchRight = touch;
+				rightBtn.opacity = HILITE_ALPHA;
+				[actor move:MoveActionRight];
+			}
+			mode = MoveActionRight;
+		}
+		else if(location.x > 328 && location.x <= 430) {
+			if(touch != touchUp) {
+				touchUp = touch;
+				jumpBtn.opacity = HILITE_ALPHA;
+				[actor move:MoveActionJump];
+			}
+			mode = MoveActionJump;
+		}
+	}
+	return mode;
+}
+
+- (BOOL)ccTouchBegan:(UITouch *)touch withEvent:(UIEvent *)event
+{
+	CGPoint location = [[CCDirector sharedDirector] convertToGL: [touch locationInView: [touch view]]];
+	TRACE(@"location: %f, %f", location.x, location.y);
+
+	//int i = [self getAvailableTouchInstances];
+//	int mode = [self checkTouch:touch location:location];
+//	TRACE(@"mode: %d", mode);
+//	if(mode != 0)
+//	{
+//		touchInstance[i].touch = touch;
+//		touchInstance[i].active = YES;
+//		touchInstance[i].mode = mode;
+//		touchInstance[i].location = location;
+//		return YES;
+//	}
+
+	if(location.y <= 60)
+	{
+		if(location.x > 55 && location.x <= 144) {
+			if(touch != touchLeft) {
+				touchLeft = touch;
+				leftBtn.opacity = HILITE_ALPHA;
+				[actor move:MoveActionLeft];
+			}
+			//mode = MoveActionLeft;
+		}
+		else if(location.x > 144 && location.x <= 233) {
+			if(touch != touchRight) {
+				touchRight = touch;
+				rightBtn.opacity = HILITE_ALPHA;
+				[actor move:MoveActionRight];
+			}
+			//mode = MoveActionRight;
+		}
+		else if(location.x > 328 && location.x <= 430) {
+			if(touch != touchUp) {
+				touchUp = touch;
+				jumpBtn.opacity = HILITE_ALPHA;
+				[actor move:MoveActionJump];
+			}
+			//mode = MoveActionJump;
+		}
+	}
+	
+	return YES;
+}
+//
+//- (void)ccTouchMoved:(UITouch *)touch withEvent:(UIEvent *)event
+//{
+//	CGPoint location = [[CCDirector sharedDirector] convertToGL: [touch locationInView: [touch view]]];
+//	CGPoint oldLocation = [[CCDirector sharedDirector] convertToGL: [touch previousLocationInView: [touch view]]];
+//	TRACE(@"location: %f, %f", location.x, location.y);
+//	int i = [self getTouchIdByPoint:oldLocation];
+//	if(i != -1)
+//	{
+//		int mode = [self checkTouch:touch location:location];
+//		TRACE(@"mode: %d", mode);
+//
+//		
+//		if(mode != 0) 
+//		{
+//			if(touchInstance[i].mode != mode)
+//			{
+//				[self disableTouchInstanceWithId:i];
+//				touchInstance[i].touch = touch;
+//				touchInstance[i].active = YES;
+//				touchInstance[i].mode = [self checkTouch:touch location:location];
+//			}
+//			touchInstance[i].location = location;	
+//		}
+//		else
+//		{
+//			[self disableTouchInstanceWithId:i];
+//		}
+//	}
+//}
+
+- (void)ccTouchEnded:(UITouch *)touch withEvent:(UIEvent *)event
+{
+	CGPoint location = [[CCDirector sharedDirector] convertToGL: [touch locationInView: [touch view]]];
+	CGPoint oldLocation = [[CCDirector sharedDirector] convertToGL: [touch previousLocationInView: [touch view]]];
+//	int i = [self getTouchIdByPoint:oldLocation];
+//	if(i != -1)
+//	{
+//		[self disableTouchInstanceWithId:i];
+//	}
+	
+	if(touch == touchLeft)
+	{
+		[actor move:MoveActionIdle];
+		leftBtn.opacity = 255;
+		touchLeft = nil;
+	}
+	else if(touch == touchRight)
+	{
+		[actor move:MoveActionIdle];
+		rightBtn.opacity = 255;
+		touchRight = nil;
+	}
+	else if(touch == touchUp)
+	{
+		[actor move:MoveActionIdle];
+		jumpBtn.opacity = 255;
+		touchUp = nil;
+	}
+}
+
+- (void)ccTouchCancelled:(UITouch *)touch withEvent:(UIEvent *)event
+{
+	[self ccTouchEnded:touch withEvent:event];
+}
+
 
 - (void) dealloc
 {
