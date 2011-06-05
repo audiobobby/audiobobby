@@ -17,7 +17,7 @@
 @implementation SingleWaveBar
 
 @synthesize barSprite = _barSprite;
-@synthesize starSprite = _starSprite;
+//@synthesize starSprite = _starSprite;
 @synthesize tempWaveDirection;
 
 - (id)initWithColumn:(int)column
@@ -25,24 +25,19 @@
     self = [super init];
     
     if (self) {
+        // used only for demo purposes right now
         tempWaveDirection = 1;
         
         _barSprite = [[CCSprite spriteWithFile:@"meter.png"] retain];
         
         float calculatedXPosition = leftPadding+(column*spaceBetweenBar)+(column*_barSprite.contentSize.width) +(_barSprite.contentSize.width/2);
         
-        NSLog(@"calculatedXPosition %f", calculatedXPosition);
-        
-        //_barSprite.position = ccp(calculatedXPosition, (_barSprite.contentSize.height/2)+60);
         _barSprite.position = ccp(calculatedXPosition, 0);
         
-        NSLog(@"bar location x:%f y:%f", _barSprite.position.x, _barSprite.position.y);
+        [self setBarHeight:0.25];
         
-        [self setBarHeight:0.250];
+        //_starSprite = [[CCSprite spriteWithFile:@"star.png"] retain];
         
-        _starSprite = [[CCSprite spriteWithFile:@"star.png"] retain];
-        
-        //_starSprite.position = ccp(_barSprite.position.x, _barSprite.position.y+_barSprite.contentSize.height/2+starToBarTopSpacing+_starSprite.contentSize.height/2);
     }
     
     return self;
@@ -53,19 +48,25 @@
     return [self initWithColumn:0];
 }
 
+- (SoundStar *)dropStar
+{
+    
+}
+
+- (float)getBarHeight
+{
+    return _height;
+}
+
 - (void)setBarHeight:(float)height
 {    
-    
+    _height = height;
     
     float difference = (_barSprite.contentSize.height/2)+lowerBarHeight + 21;
     
-    NSLog(@"new y:%f from height:%f ", difference*height-21, height);
-    
     _barSprite.position = ccp(_barSprite.position.x, difference*height-21);
     
-    _starSprite.position = ccp(_barSprite.position.x, _barSprite.position.y+_barSprite.contentSize.height/2+starToBarTopSpacing+_starSprite.contentSize.height/2);
-    
-    NSLog(@"new bar location x:%f y:%f", _barSprite.position.x, _barSprite.position.y);
+    //_starSprite.position = ccp(_barSprite.position.x, _barSprite.position.y+_barSprite.contentSize.height/2+starToBarTopSpacing+_starSprite.contentSize.height/2);
 }
 
 @end

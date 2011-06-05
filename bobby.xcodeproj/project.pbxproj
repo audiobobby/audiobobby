@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		53CDC306139B59A800E50A7E /* SingleWaveBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 53CDC305139B59A800E50A7E /* SingleWaveBar.m */; };
+		531F0698139C134E00F27863 /* SoundStar.mm in Sources */ = {isa = PBXBuildFile; fileRef = 531F0697139C134E00F27863 /* SoundStar.mm */; };
+		53CDC306139B59A800E50A7E /* SingleWaveBar.mm in Sources */ = {isa = PBXBuildFile; fileRef = 53CDC305139B59A800E50A7E /* SingleWaveBar.mm */; };
 		53CDC30E139B5ABD00E50A7E /* lowerBar.png in Resources */ = {isa = PBXBuildFile; fileRef = 53CDC308139B5ABD00E50A7E /* lowerBar.png */; };
 		53CDC30F139B5ABD00E50A7E /* lowerBar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 53CDC309139B5ABD00E50A7E /* lowerBar@2x.png */; };
 		53CDC310139B5ABD00E50A7E /* meter-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 53CDC30A139B5ABD00E50A7E /* meter-hd.png */; };
@@ -328,8 +329,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		531F0696139C134E00F27863 /* SoundStar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundStar.h; sourceTree = "<group>"; };
+		531F0697139C134E00F27863 /* SoundStar.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SoundStar.mm; sourceTree = "<group>"; };
 		53CDC304139B59A800E50A7E /* SingleWaveBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleWaveBar.h; sourceTree = "<group>"; };
-		53CDC305139B59A800E50A7E /* SingleWaveBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleWaveBar.m; sourceTree = "<group>"; };
+		53CDC305139B59A800E50A7E /* SingleWaveBar.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SingleWaveBar.mm; sourceTree = "<group>"; };
 		53CDC308139B5ABD00E50A7E /* lowerBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lowerBar.png; sourceTree = "<group>"; };
 		53CDC309139B5ABD00E50A7E /* lowerBar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lowerBar@2x.png"; sourceTree = "<group>"; };
 		53CDC30A139B5ABD00E50A7E /* meter-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "meter-hd.png"; sourceTree = "<group>"; };
@@ -1969,10 +1972,12 @@
 			children = (
 				C79CD6FE139AB04C00D603D3 /* Path.h */,
 				C79CD6FF139AB04C00D603D3 /* Path.mm */,
+				531F0696139C134E00F27863 /* SoundStar.h */,
+				531F0697139C134E00F27863 /* SoundStar.mm */,
 				C79CD6C1139AA4BA00D603D3 /* Actor.h */,
 				C79CD6C2139AA4BA00D603D3 /* Actor.mm */,
 				53CDC304139B59A800E50A7E /* SingleWaveBar.h */,
-				53CDC305139B59A800E50A7E /* SingleWaveBar.m */,
+				53CDC305139B59A800E50A7E /* SingleWaveBar.mm */,
 			);
 			name = Elements;
 			sourceTree = "<group>";
@@ -2501,7 +2506,8 @@
 				AB543F48139B2AC0001ADF27 /* SHKShareMenu.m in Sources */,
 				AB543F49139B2AC0001ADF27 /* SHKViewControllerWrapper.m in Sources */,
 				AB9AF1CB139B571200CB9F88 /* PauseView.m in Sources */,
-				53CDC306139B59A800E50A7E /* SingleWaveBar.m in Sources */,
+				53CDC306139B59A800E50A7E /* SingleWaveBar.mm in Sources */,
+				531F0698139C134E00F27863 /* SoundStar.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

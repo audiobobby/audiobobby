@@ -112,7 +112,7 @@
 	}
 	
 	
-	[[SimpleAudioEngine sharedEngine] playEffect:@"music.caf"];
+	[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"music.caf" loop:YES];
 	
 	score = 0;
 	elapsed = 0;

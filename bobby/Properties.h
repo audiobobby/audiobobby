@@ -45,7 +45,7 @@
 
 #define ACTOR_BIT 0x0001
 #define GROUND_BIT 0x0002
-#define BULLET_BIT 0x0004
+#define SOUNDSTAR_BIT 0x0004
 #define HITAREA_BIT 0x0005
 #define PATH_BIT 0x0010
 
