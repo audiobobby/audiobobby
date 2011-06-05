@@ -224,8 +224,6 @@
 		C79CD723139ABDB800D603D3 /* btnPlay-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C79CD71B139ABDB800D603D3 /* btnPlay-hd.png */; };
 		C79CD724139ABDB800D603D3 /* btnPlayHit.png in Resources */ = {isa = PBXBuildFile; fileRef = C79CD71C139ABDB800D603D3 /* btnPlayHit.png */; };
 		C79CD725139ABDB800D603D3 /* btnPlayHit-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C79CD71D139ABDB800D603D3 /* btnPlayHit-hd.png */; };
-		C79CD728139ABE6900D603D3 /* MainScreen.png in Resources */ = {isa = PBXBuildFile; fileRef = C79CD726139ABE6800D603D3 /* MainScreen.png */; };
-		C79CD729139ABE6900D603D3 /* MainScreen-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C79CD727139ABE6900D603D3 /* MainScreen-hd.png */; };
 		C79CD72C139AC12F00D603D3 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C79CD72B139AC12600D603D3 /* RootViewController.m */; };
 		C79CD735139AC18A00D603D3 /* Popup-ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = C79CD72D139AC18A00D603D3 /* Popup-ipad.xib */; };
 		C79CD736139AC18A00D603D3 /* Popup.m in Sources */ = {isa = PBXBuildFile; fileRef = C79CD72F139AC18A00D603D3 /* Popup.m */; };
@@ -638,8 +636,6 @@
 		C79CD71B139ABDB800D603D3 /* btnPlay-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btnPlay-hd.png"; sourceTree = "<group>"; };
 		C79CD71C139ABDB800D603D3 /* btnPlayHit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btnPlayHit.png; sourceTree = "<group>"; };
 		C79CD71D139ABDB800D603D3 /* btnPlayHit-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btnPlayHit-hd.png"; sourceTree = "<group>"; };
-		C79CD726139ABE6800D603D3 /* MainScreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = MainScreen.png; path = Resources/MainScreen.png; sourceTree = "<group>"; };
-		C79CD727139ABE6900D603D3 /* MainScreen-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "MainScreen-hd.png"; path = "Resources/MainScreen-hd.png"; sourceTree = "<group>"; };
 		C79CD72A139AC12200D603D3 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		C79CD72B139AC12600D603D3 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		C79CD72D139AC18A00D603D3 /* Popup-ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "Popup-ipad.xib"; sourceTree = "<group>"; };
@@ -1320,8 +1316,6 @@
 				C77D63D1139B3977001CDDC3 /* MainScreen.png */,
 				C77D63D2139B3977001CDDC3 /* MenuEnd-hd.png */,
 				C77D63D3139B3977001CDDC3 /* MenuEnd.png */,
-				C79CD726139ABE6800D603D3 /* MainScreen.png */,
-				C79CD727139ABE6900D603D3 /* MainScreen-hd.png */,
 				C79CD711139ABAF200D603D3 /* background-ipad.tmx */,
 				C79CD712139ABAF200D603D3 /* background.tmx */,
 				C79CD70D139ABAC800D603D3 /* background.png */,
@@ -1449,8 +1443,6 @@
 				C79CD723139ABDB800D603D3 /* btnPlay-hd.png in Resources */,
 				C79CD724139ABDB800D603D3 /* btnPlayHit.png in Resources */,
 				C79CD725139ABDB800D603D3 /* btnPlayHit-hd.png in Resources */,
-				C79CD728139ABE6900D603D3 /* MainScreen.png in Resources */,
-				C79CD729139ABE6900D603D3 /* MainScreen-hd.png in Resources */,
 				C79CD735139AC18A00D603D3 /* Popup-ipad.xib in Resources */,
 				C79CD737139AC18A00D603D3 /* Popup.xib in Resources */,
 				C79CD738139AC18A00D603D3 /* PauseView-ipad.xib in Resources */,

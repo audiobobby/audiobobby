@@ -428,10 +428,10 @@
 		[popup release];
 		popup = nil;
 	}
-	if(tips != nil) {
-		[tips.view removeFromSuperview];
-		[tips release];
-		tips = nil;
+	if(pauseView != nil) {
+		[pauseView.view removeFromSuperview];
+		[pauseView release];
+		pauseView = nil;
 	}
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"ResumeGame" object:nil];	
 }
