@@ -17,6 +17,7 @@
 
 @class Actor;
 @class SoundEffect;
+@class Path;
 
 @interface World : CCLayer <GameDelegate>
 {
@@ -55,6 +56,7 @@
 	BOOL firstRun;
 	float timestamp;
 	NSDate *startTime;
+	Path *groundNode;
 }
 
 @property (nonatomic, assign) id <GameDelegate> delegate;

@@ -12,7 +12,7 @@
 #import "Path.h"
 
 #if DEBUG_MODE
-	#define DEBUG_PHYSIC 1
+	#define DEBUG_PHYSIC 0
 #else
 	#define DEBUG_PHYSIC 0
 #endif
@@ -94,10 +94,8 @@
 	
 	float leftX = 0; 
 	
-	// bottom
-	groundBox.SetAsEdge(b2Vec2(leftX, 60.0/PTM_RATIO), b2Vec2(winSize.width/PTM_RATIO, 60.0/PTM_RATIO));
-	fixtureDef.shape = &groundBox;
-	groundFixture = groundBody->CreateFixture(&fixtureDef);
+	
+	groundNode = [[Path node] retain];
 	
 	// left
 	groundBox.SetAsEdge(b2Vec2(leftX, winSize.height/PTM_RATIO), b2Vec2(leftX,0));
@@ -113,6 +111,12 @@
 	groundBox.SetAsEdge(b2Vec2(leftX, winSize.height/PTM_RATIO), b2Vec2(winSize.width/PTM_RATIO, winSize.height));
 	fixtureDef.shape = &groundBox;
 	groundBody->CreateFixture(&fixtureDef);
+	
+	// bottom
+	groundBox.SetAsEdge(b2Vec2(leftX, 60.0/PTM_RATIO), b2Vec2(winSize.width/PTM_RATIO, 60.0/PTM_RATIO));
+	fixtureDef.shape = &groundBox;
+	fixtureDef.userData = groundNode;
+	groundFixture = groundBody->CreateFixture(&fixtureDef);	
 }
 
 ///////////////
@@ -178,27 +182,14 @@
 	[actor addToWorld:world location:pos];
 	[self addChild:actor z:9];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"ActorCreated" object:actor];	
-	//[actor setMode:AnimationIdle];
-		
-		//////////////////
 	
 	[self unscheduleUpdate];
 	[self scheduleUpdate];
 	[self schedule:@selector(updateElements) interval:0.5];	
 	[self updateElements];
 	
-	//[delegate startGame];
-		
 	active = YES;
 	moving = YES;
-	
-	//[self shuffle];
-	
-
-	//actor.body->SetLinearVelocity(b2Vec2(speed, 0));
-	//[actor setMode:ModeRunning];
-	
-	
 }
 
 	
@@ -208,10 +199,6 @@
 	world->DestroyBody(actor.body);
 	actor.body = nil;
 	actor.fixture = nil;
-#if defined(USE_EMITTER)	
-	[self removeChild:emitter cleanup:YES];
-	emitter = nil;
-#endif
 	[self removeChild:actor cleanup:YES];
 	actor = nil;
 }
@@ -265,23 +252,7 @@
 
 #endif
 
-- (void) landed:(b2Fixture *)fixture
-{
-	
-	NSNumber *num = (NSNumber *)fixture->GetUserData();
-	
-	if(num != nil) {
-		float rotation = [num floatValue];
-		if(actor.rotate != rotation)
-		{
-			actor.rotate = rotation;
-			[actor stopAllActions];
-			[actor runAction:[CCRotateTo actionWithDuration:0.2 angle:rotation]];
-			//TRACE(@"angle:%f", rotation);
-		}
-	}
-	
-}
+
 
 /*
 - (void) targetHit:(Bullet *)bullet
@@ -346,99 +317,55 @@
 		}	
 	}
 	
-	/*
-	if(moving == YES)
-	{
-		b2Vec2 velocity = actor.body->GetLinearVelocity();
-
-		if(velocity.x < speed)
-		{
-			velocity.x += speedStep*2;
-		}
-		else if(velocity.x > speed)
-		{
-			velocity.x *= 0.9;
-		}
-
-		actor.body->SetLinearVelocity(b2Vec2(velocity.x, velocity.y));		
-	}
-	*/
 		
-	/////////////////
-	/*
+
 	if(active == YES)
-	{		
-		if(following == NO)
+	{	
+		if(actor.mode == AnimationIdle)
 		{
-			if(actor.position.x > winSize.width*0.85 - self.position.x) {
-				[self startRun];
+			b2Vec2 velocity = actor.body->GetLinearVelocity();
+			if(velocity.x > 0)
+			{
+				velocity.x *= 0.7;
 			}
+			else
+			{
+				velocity.x = 0;
+			}
+			actor.body->SetLinearVelocity(b2Vec2(velocity.x, velocity.y));
 		}
-		BOOL landed = NO;
+		
+		BOOL grounded = NO;
 		std::vector<MyContact>::iterator pos;
 		for(pos = contactListener->_contacts.begin(); pos != contactListener->_contacts.end(); ++pos) 
 		{
 			MyContact contact = *pos;
 			id dataA = (id)contact.fixtureA->GetUserData();
 			id dataB = (id)contact.fixtureB->GetUserData();
-			
-			if([dataA isKindOfClass:[Bullet class]])
+			//TRACE(@": %@, %@", dataA, dataB);
+			if([dataA isKindOfClass:[Actor class]])
 			{
-				Bullet *bullet = (Bullet *)dataA;
-				[bullet explode];
-				if([dataB isKindOfClass:[actor class]])	
+				
+				if([dataB isKindOfClass:[Path class]])	
 				{
-					[self targetHit:bullet];
-				}	
-				else if([dataB isKindOfClass:[Path class]])
-				{
-					if(bullet.points > 0) 
-					{
-						[bullet blocked];
-						[delegate addPoints:bullet.points];
-						bullet.points = 0;
-					}
-				}
-				if(bullet.tag != ObjectTypeSpear && bullet.tag != ObjectTypeArrow) {
-					bullet.live = NO;	
+					//TRACE(@"grounded: %d, %d", grounded, actor.grounded);
+					grounded = YES;
 				}	
 			}
-			else if([dataB isKindOfClass:[Bullet class]])
+			else if([dataA isKindOfClass:[Path class]])
 			{
-				Bullet *bullet = (Bullet *)dataB;
-				[bullet explode];
-				if([dataA isKindOfClass:[actor class]])	
+				if([dataB isKindOfClass:[Actor class]])	
 				{
-					[self targetHit:bullet];
+					//TRACE(@"grounded: %d, %d", grounded, actor.grounded);
+					grounded = YES;
 				}	
-				else if([dataA isKindOfClass:[Path class]])
-				{
-					if(bullet.points > 0) 
-					{
-						[bullet blocked];
-						[delegate addPoints:bullet.points];
-						bullet.points = 0;
-					}
-				}
-				if(bullet.tag != ObjectTypeSpear && bullet.tag != ObjectTypeArrow) {
-					bullet.live = NO;	
-				}
-			}
-			
-			else if(contact.fixtureA == actor.fixture)
-			{
-				[self landed:contact.fixtureB];
-				landed = YES;
-			}
-			else if(contact.fixtureB == actor.fixture)
-			{
-				[self landed:contact.fixtureA];
-				landed = YES;
 			}
 		}
-		
+		if(actor.grounded != grounded) {
+			actor.grounded = grounded;
+		}
+		//TRACE(@"grounded: %d, %d", grounded, actor.grounded);
 	}
-	 */
 	
 }
 
@@ -520,6 +447,8 @@
 	TRACE(@"dealloc world");
 	
 	[self destroy];
+	
+	[groundNode release];
 	
 	delete contactListener;
 	contactListener = nil;

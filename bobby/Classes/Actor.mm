@@ -15,7 +15,7 @@
 
 @implementation Actor
 
-@synthesize aFrame, justLanded, radius;
+@synthesize aFrame, radius;
 @synthesize delegate, rotate;
 @synthesize body, fixture;
 
@@ -25,29 +25,24 @@
 	{	
 		self.tag = ObjectTypeActor;
 		
-//		CCSpriteBatchNode *sheet4 = [CCSpriteBatchNode batchNodeWithFile:@"bobby.png" capacity:50];
-//		[self addChild:sheet4];
-//		[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"bobby.plist"];
+		CCSpriteBatchNode *sheet4 = [CCSpriteBatchNode batchNodeWithFile:@"bobby.png" capacity:10];
+		[self addChild:sheet4];
+		[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"bobby.plist"];
 		
-		sprite = [CCSprite spriteWithFile:@"bobbyFront.png"]; // [CCSprite spriteWithSpriteFrameName:@"gallop_0012.png"];
+		sprite = [CCSprite spriteWithSpriteFrameName:@"rb_0001.png"];
 		[self addChild:sprite];
-		//sprite.scale = ([[Properties sharedProperties] isLowResIPhone] == NO) ? 1.0 : 0.5;
+		sprite.scale = ([[Properties sharedProperties] isLowResIPhone] == NO) ? 0.8 : 0.4;
 		radius = (sprite.contentSize.height * 0.5) * sprite.scale;
-//		
-//		runningFrames = [[NSMutableArray alloc] initWithCapacity:TOTAL_RUN_FRAMES];
-//		for(int i = 0; i < TOTAL_RUN_FRAMES; i++)
-//		{
-//			CCSpriteFrame *sf = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"gallop_%04d.png",i+12]];
-//			[runningFrames addObject:sf];
-//		}
-//				
-//		fallingFrames = [[NSMutableArray alloc] initWithCapacity:TOTAL_FALL_FRAMES];
-//		for(int i = 1; i <= TOTAL_FALL_FRAMES; i++)
-//		{
-//			CCSpriteFrame *sf = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"fall_%04d.png",i]];
-//			[fallingFrames addObject:sf];
-//		}
 		
+		animationFrames = [[NSMutableArray alloc] initWithCapacity:10];
+		allFrames = [[NSMutableArray alloc] initWithCapacity:10];
+		for(int i = 1; i <= 9; i++)
+		{
+			CCSpriteFrame *sf = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"rb_%04d.png",i]];
+			[allFrames addObject:sf];
+			
+		}
+	
 		[self setMode:AnimationIdle];
 		aFrame = 0;
 		speed = 5.0;
@@ -83,31 +78,45 @@
 - (void) move:(int)move
 {
 	TRACE(@"MOVE: %d, %d", move, MoveActionJump);
-	if(move == lastAction) {
+	if(move == lastAction && move != MoveActionJump) {
 		move = MoveActionIdle;
 	}
 	lastAction = move;
 	switch (move) {
 		case MoveActionJump:
 			{
-				TRACE(@"jumping");
-				b2Vec2 center = self.body->GetWorldCenter();
-				float impulse = self.radius * 35;
-				self.body->ApplyLinearImpulse(b2Vec2(0.0, impulse), center);
-				move = MoveActionIdle;
+				if(jumpCount % 2 == 0 && jumpCount < 3)
+				{
+					TRACE(@"jump count: %d", jumpCount);
+					b2Vec2 center = self.body->GetWorldCenter();
+					float impulse = (grounded == YES) ? self.radius * 27 : self.radius * 15;
+					self.body->ApplyLinearImpulse(b2Vec2(0.0, impulse), center);
+					[[SimpleAudioEngine sharedEngine] playEffect:@"jump.caf"];
+					self.mode = AnimationJumping;
+				}
+				jumpCount++;
 			}
 			break;
 			
 		case MoveActionLeft:
 			self.body->SetLinearVelocity(b2Vec2(speed*-1, 0));
+			self.mode = AnimationRunning;
+			sprite.flipX = YES;
 			break;
 			
 		case MoveActionRight:
 			self.body->SetLinearVelocity(b2Vec2(speed, 0));
+			self.mode = AnimationRunning;
+			sprite.flipX = NO;
 			break;
 			
 		case MoveActionIdle:
-			self.body->SetLinearVelocity(b2Vec2(0, 0));
+			TRACE(@"idle");
+			//if(self.grounded) 
+			{
+				self.body->SetLinearVelocity(b2Vec2(0, 0));
+				self.mode = AnimationIdle;
+			}
 			break;	
 			
 		default:
@@ -120,26 +129,15 @@
 {
 	CCSpriteFrame *sf;
 	switch (mode) {
-			/*
 		case AnimationRunning:
-			if(aFrame >= TOTAL_RUN_FRAMES) aFrame = 0;
-			sf = [runningFrames objectAtIndex:aFrame];
+		case AnimationJumping:
+			if(aFrame >= totalFrames) aFrame = 0;
+			sf = [animationFrames objectAtIndex:aFrame];
 			[sprite setDisplayFrame:sf];
 			aFrame++;
 			break;
-
-		case AnimationFalling:
-			if(aFrame < TOTAL_FALL_FRAMES) 
-			{
-				sf = [fallingFrames objectAtIndex:aFrame];
-				[sprite setDisplayFrame:sf];
-				aFrame+=1;
-			}
-			break;
-			*/
 	
 	}
-	//TRACE(@"frame:%d mode:%d", aFrame, mode);
 }
 
 - (void) setMode:(int)val
@@ -147,7 +145,29 @@
 	[self unschedule:@selector(update:)];
 	aFrame = 0;
 	mode = val;
-	[self schedule:@selector(update:) interval:1/30.0];
+	[animationFrames removeAllObjects];
+	switch (mode) {
+		case AnimationRunning:
+			for (int i = 7; i <= 8; i++) {
+				[animationFrames addObject:[allFrames objectAtIndex:i-1]];
+			}
+			break;
+			
+		case AnimationJumping:
+			for (int i = 2; i <= 6; i++) {
+				[animationFrames addObject:[allFrames objectAtIndex:i-1]];
+			}
+			break;
+			
+		case AnimationIdle:
+			[sprite setDisplayFrame:[allFrames objectAtIndex:0]];
+			break;	
+	}
+	totalFrames = [animationFrames count];
+	TRACE(@"frames: %d, %@", totalFrames, animationFrames);
+	if(mode != AnimationIdle) {
+		[self schedule:@selector(update:) interval:1/15.0];
+	}
 }
 
 - (int) mode
@@ -155,14 +175,29 @@
 	return mode;
 }
 
+- (void) setGrounded:(BOOL)val
+{
+	if(val == YES && grounded == NO) {
+		jumpCount = 0;
+		self.mode = AnimationIdle;
+		TRACE(@"GROUNDED");
+	}
+	grounded = val;
+	
+}
+
+- (BOOL) grounded
+{
+	return grounded;
+}
+
 - (void) dealloc
 {
-	TRACE(@"dealloc unicorn");
+	TRACE(@"dealloc actor");
 	[self unscheduleAllSelectors];
 	[self removeChild:sprite cleanup:YES];
-	[jumpingFrames release];
-	[runningFrames release];
-	[fallingFrames release];
+	[animationFrames release];
+	[allFrames release];
 	[[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFrames];
 	[super dealloc];
 }

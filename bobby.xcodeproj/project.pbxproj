@@ -21,6 +21,10 @@
 		C77D638A139AF0B7001CDDC3 /* btn_Up.png in Resources */ = {isa = PBXBuildFile; fileRef = C77D637E139AF0B7001CDDC3 /* btn_Up.png */; };
 		C77D638B139AF0B7001CDDC3 /* btn_UpHit-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C77D637F139AF0B7001CDDC3 /* btn_UpHit-hd.png */; };
 		C77D638C139AF0B7001CDDC3 /* btn_UpHit.png in Resources */ = {isa = PBXBuildFile; fileRef = C77D6380139AF0B7001CDDC3 /* btn_UpHit.png */; };
+		C77D639B139B1A1A001CDDC3 /* bobby.plist in Resources */ = {isa = PBXBuildFile; fileRef = C77D6399139B1A19001CDDC3 /* bobby.plist */; };
+		C77D639C139B1A1A001CDDC3 /* bobby.png in Resources */ = {isa = PBXBuildFile; fileRef = C77D639A139B1A19001CDDC3 /* bobby.png */; };
+		C77D63A5139B3134001CDDC3 /* music.caf in Resources */ = {isa = PBXBuildFile; fileRef = C77D63A3139B3133001CDDC3 /* music.caf */; };
+		C77D63A6139B3135001CDDC3 /* jump.caf in Resources */ = {isa = PBXBuildFile; fileRef = C77D63A4139B3134001CDDC3 /* jump.caf */; };
 		C79CD4AF139AA26200D603D3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C79CD4AE139AA26200D603D3 /* QuartzCore.framework */; };
 		C79CD4B1139AA26200D603D3 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C79CD4B0139AA26200D603D3 /* OpenGLES.framework */; };
 		C79CD4B3139AA26200D603D3 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C79CD4B2139AA26200D603D3 /* OpenAL.framework */; };
@@ -233,6 +237,10 @@
 		C77D637E139AF0B7001CDDC3 /* btn_Up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_Up.png; sourceTree = "<group>"; };
 		C77D637F139AF0B7001CDDC3 /* btn_UpHit-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn_UpHit-hd.png"; sourceTree = "<group>"; };
 		C77D6380139AF0B7001CDDC3 /* btn_UpHit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btn_UpHit.png; sourceTree = "<group>"; };
+		C77D6399139B1A19001CDDC3 /* bobby.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bobby.plist; sourceTree = "<group>"; };
+		C77D639A139B1A19001CDDC3 /* bobby.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bobby.png; sourceTree = "<group>"; };
+		C77D63A3139B3133001CDDC3 /* music.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = music.caf; sourceTree = "<group>"; };
+		C77D63A4139B3134001CDDC3 /* jump.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = jump.caf; sourceTree = "<group>"; };
 		C79CD4AA139AA26200D603D3 /* bobby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bobby.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C79CD4AE139AA26200D603D3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		C79CD4B0139AA26200D603D3 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -641,6 +649,8 @@
 			children = (
 				C77D635F139AE229001CDDC3 /* bobbyFront-hd.png */,
 				C77D6360139AE229001CDDC3 /* bobbyFront.png */,
+				C77D6399139B1A19001CDDC3 /* bobby.plist */,
+				C77D639A139B1A19001CDDC3 /* bobby.png */,
 			);
 			name = Sprites;
 			path = Resources/Sprites;
@@ -705,6 +715,8 @@
 				C79CD4C2139AA26200D603D3 /* fps_images.png */,
 				C79CD4D0139AA26200D603D3 /* Info.plist */,
 				C79CD4D1139AA26200D603D3 /* iTunesArtwork */,
+				C77D63A3139B3133001CDDC3 /* music.caf */,
+				C77D63A4139B3134001CDDC3 /* jump.caf */,
 				C79CD690139AA26600D603D3 /* blocks.png */,
 			);
 			name = Resources;
@@ -1408,6 +1420,10 @@
 				C77D638A139AF0B7001CDDC3 /* btn_Up.png in Resources */,
 				C77D638B139AF0B7001CDDC3 /* btn_UpHit-hd.png in Resources */,
 				C77D638C139AF0B7001CDDC3 /* btn_UpHit.png in Resources */,
+				C77D639B139B1A1A001CDDC3 /* bobby.plist in Resources */,
+				C77D639C139B1A1A001CDDC3 /* bobby.png in Resources */,
+				C77D63A5139B3134001CDDC3 /* music.caf in Resources */,
+				C77D63A6139B3135001CDDC3 /* jump.caf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

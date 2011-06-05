@@ -14,8 +14,6 @@
 typedef enum {
 	AnimationRunning,
 	AnimationJumping,
-	AnimationPrelanding,
-	AnimationLanding,
 	AnimationFalling,
 	AnimationIdle
 } Animation;
@@ -33,10 +31,7 @@ typedef enum {
 	int num;
 	CGRect frame;
 	id <GameDelegate> delegate;
-	NSMutableArray *runningFrames;
-	NSMutableArray *jumpingFrames;
-	NSMutableArray *landingFrames;
-	NSMutableArray *fallingFrames;
+	NSMutableArray *allFrames, *animationFrames;
 	int aFrame;
 	int mode;
 	BOOL justLanded;
@@ -46,16 +41,19 @@ typedef enum {
 	b2Fixture *fixture;
 	b2Body *body;
 	int lastAction;
+	int jumpCount;
+	BOOL grounded;
+	int totalFrames;
 }
 
 @property (nonatomic, assign) id <GameDelegate> delegate;
 @property (nonatomic, assign) int aFrame;
-@property (nonatomic, assign) BOOL justLanded;
 @property (nonatomic, assign) float radius;
 @property (nonatomic, assign) float rotate;
 @property (nonatomic, assign) b2Fixture *fixture;
 @property (nonatomic, assign) b2Body *body;
 @property (nonatomic, assign) int mode;
+@property (nonatomic, assign) BOOL grounded;
 
 - (void) addToWorld:(b2World *)world location:(CGPoint)pos;
 
