@@ -12,7 +12,7 @@
 
 @interface FinalScene : CCLayer <GKLeaderboardViewControllerDelegate> {
 		
-	UIView *modalWrapper_;
+	UIViewController *modalWrapper_;
 }
 
 + (id) scene;

@@ -15,7 +15,8 @@
 @interface FinalScene(private)
 
 -(void) reportScore:(NSNumber*) aScore forCategory:(NSString*) aString;
-	
+-(UIViewController*) modalWrapper;
+
 @end
 
 @implementation FinalScene
@@ -89,6 +90,21 @@
 	return self;
 }
 
+-(UIViewController*) modalWrapper{
+	
+	if( !modalWrapper_ ){
+		
+		modalWrapper_ = [[UIViewController alloc] init];
+		
+		[modalWrapper_ setView:[[CCDirector sharedDirector] openGLView]];
+		
+		[modalWrapper_ setModalPresentationStyle:UIModalTransitionStyleFlipHorizontal];
+		
+	}
+	
+	return modalWrapper_;
+}
+
 //Attempt to send the score when the transition is finished
 -(void) onEnterTransitionDidFinish{
 		
@@ -116,6 +132,13 @@
 	
 }
 
+#pragma mark - GKLeaderboardViewControllerDelegate
+-(void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController{
+	
+	NSLog(@"LeaderboardDidPressDismiss");
+	
+}
+
 #pragma mark - Event handlers
 
 -(void) onLeaderboard{
@@ -123,8 +146,6 @@
 	UIViewController			*controller;
 	__block GKLeaderboardViewController	*leaderboardController;
 	
-	//NOTE: LEAKING!!!!!!
-	controller = [[UIViewController alloc] init];
 	
 	[[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:^(NSError *error){
 		
@@ -133,12 +154,8 @@
 			leaderboardController = [[GKLeaderboardViewController alloc] init];
 			
 			[leaderboardController setLeaderboardDelegate:self];
-			
-			[controller setView:[[CCDirector sharedDirector] openGLView]];
-			
-			[controller setModalPresentationStyle:UIModalTransitionStyleFlipHorizontal];
-			
-			[controller presentModalViewController:leaderboardController
+		
+			[[self modalWrapper] presentModalViewController:leaderboardController
 										  animated:YES
 			 ];
 			
@@ -176,11 +193,13 @@
 	[self removeAllChildrenWithCleanup:YES];
 }
 
-#pragma mark - GKLeaderboardViewControllerDelegate
--(void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController{
+-(void) dealloc{
 	
-	NSLog(@"LeaderboardDidPressDismiss");
+	[modalWrapper_ release];
+	modalWrapper_ = nil;
 	
+	[super dealloc];
 }
+
 
 @end
