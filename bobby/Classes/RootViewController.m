@@ -19,7 +19,7 @@
 #import "DataFeed.h"
 #import "PromptController.h"
 #import "MusicPlayer.h"
-#import "TipsView.h"
+#import "PauseView.h"
 
 #define kLeaderboardHighScore @"highscore"
 #define kAchievementPrefix @"com.h2indie.bobby"
@@ -48,7 +48,7 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPromptRating:) name:@"PromptRating" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSubmitScore:) name:@"SubmitScore" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSubmitAchievement:) name:@"SubmitAchievement" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onShowTips:) name:@"ShowTips" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onShowPause:) name:@"ShowTips" object:nil];
 		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onShowBanner:) name:@"ShowBanner" object:nil];
 		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHideBanner:) name:@"HideBanner" object:nil];
 		
@@ -232,11 +232,11 @@
 	[self.view addSubview:popup.view];
 }
 
-- (void) onShowTips:(NSNotification *)notif
+- (void) onShowPause:(NSNotification *)notif
 {
-	if(tips != nil) return;
-	tips = [[TipsView alloc] initWithNibName:XIB(@"TipsView") bundle:nil];
-	[self.view addSubview:tips.view];
+	if(pauseView != nil) return;
+	pauseView = [[PauseView alloc] initWithNibName:XIB(@"PauseView") bundle:nil];
+	[self.view addSubview:pauseView.view];
 }
 
 - (void) showGamecenterError

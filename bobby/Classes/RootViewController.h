@@ -21,13 +21,13 @@ typedef enum {
 
 @class Popup;
 @class PromptController;
-@class TipsView;
+@class PauseView;
 
 @interface RootViewController : UIViewController <GKLeaderboardViewControllerDelegate, GKAchievementViewControllerDelegate, GameCenterManagerDelegate>
 {
 	GameCenterManager* gameCenterManager;
 	Popup *popup;
-	TipsView *tips;
+	PauseView *pauseView;
 	int alertMode;
 	PromptController *prompt;
 	BOOL authenticated;

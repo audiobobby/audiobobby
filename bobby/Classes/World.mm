@@ -407,7 +407,7 @@
 - (void) initRun
 {
 	[self unschedule:@selector(initRun)];
-	[self showActorAtLocation:ccp(winSize.width * 0.5, winSize.height * 0.5)];	
+	[self showActorAtLocation:ccp(winSize.width * 0.5, winSize.height * 0.25)];	
 	firstRun = NO;
 	timestamp = [startTime timeIntervalSinceNow]; 
 }
