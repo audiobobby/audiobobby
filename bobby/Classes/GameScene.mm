@@ -16,6 +16,7 @@
 #import "FlurryAPI.h"
 #import "Tips.h"
 #import "MainScene.h"
+#import "FinalScene.h"
 
 @interface GameScene (internal)
 - (void) destroy;
@@ -185,7 +186,7 @@
 	[FlurryAPI logEvent:@"GAME_COMPLETED" withParameters:dictionary];
 #endif
 	
-	[[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5f scene:[MainScene scene]]];
+	[[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5f scene:[FinalScene scene]]];
 
 }
 
