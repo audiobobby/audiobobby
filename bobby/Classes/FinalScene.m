@@ -47,8 +47,8 @@
 		[self addChild:back];
 		
 		//The score label
-		CCLabelTTF	*scoreLabel = [CCLabelTTF labelWithString:@"0001"
-													fontName:@"Arial"
+		CCLabelTTF	*scoreLabel = [CCLabelTTF labelWithString:[NSString stringWithFormat:@"%d",122]
+													fontName:@"8bitWonder32"
 													fontSize:60.0f
 								   ];
 		
