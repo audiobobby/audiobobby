@@ -7,10 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "GameKit/GameKit.h"
 #import "cocos2d.h"
 
-@interface MainScene : CCLayer 
+@interface MainScene : CCLayer<GKLeaderboardViewControllerDelegate>
 {
+	
+	UIViewController	*modalWrapper_;
 }
 
 + (id) scene;

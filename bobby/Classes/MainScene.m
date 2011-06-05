@@ -10,6 +10,12 @@
 #import "GameScene.h"
 #import "Button.h"
 
+@interface MainScene(private)
+
+-(UIViewController*) modalWrapper;
+
+@end
+
 @implementation MainScene
 
 
@@ -36,11 +42,61 @@
 																	 atPosition:ccp(winSize.width*0.5, winSize.height * 0.35) target:self selector:@selector(playGame)];
 		[self addChild:playBtn];
 		
-		Button *lbBtn = [Button buttonWithImage:PNG(@"btnLeaderboard") onImage:PNG(@"btnLeaderboardHit") 
-																 atPosition:ccp(winSize.width*0.5, winSize.height * 0.1) target:self selector:@selector(playGame)];
+		Button *lbBtn = [Button buttonWithImage:PNG(@"btnLeaderboard") 
+										onImage:PNG(@"btnLeaderboardHit") 
+									 atPosition:ccp(winSize.width*0.5, winSize.height * 0.1) 
+										 target:self 
+									   selector:@selector(onLeaderboard)];
 		[self addChild:lbBtn];
 	}
 	return self;
+}
+
+-(UIViewController*) modalWrapper{
+	
+	if( !modalWrapper_ ){
+		
+		modalWrapper_ = [[UIViewController alloc] init];
+		
+		[modalWrapper_ setView:[[CCDirector sharedDirector] openGLView]];
+		
+		[modalWrapper_ setModalPresentationStyle:UIModalTransitionStyleFlipHorizontal];
+		
+	}
+	
+	return modalWrapper_;
+}
+
+#pragma mark - GKLeaderboardViewControllerDelegate
+-(void) leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController{
+	
+	NSLog(@"LeaderboardDidPressDismiss");
+	
+}
+
+#pragma mark - Actions
+-(void) onLeaderboard{
+	
+	__block GKLeaderboardViewController	*leaderboardController;
+	
+	[[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:^(NSError *error){
+		
+		if( [[GKLocalPlayer localPlayer] isAuthenticated] ){
+			
+			leaderboardController  = [[GKLeaderboardViewController alloc] init];
+			
+			[leaderboardController setLeaderboardDelegate:self];
+			
+			[[self modalWrapper] presentModalViewController:leaderboardController
+												   animated:YES
+			 ];
+			
+			[leaderboardController release];
+			
+		}
+		
+	}];
+	
 }
 
 - (void) playGame
@@ -59,5 +115,12 @@
 	[self removeAllChildrenWithCleanup:YES];
 }
 
+-(void) dealloc{
+	
+	[modalWrapper_ release];
+	modalWrapper_ = nil;
+	
+	[super dealloc];
+}
 
 @end
