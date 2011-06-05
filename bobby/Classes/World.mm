@@ -8,6 +8,7 @@
 
 #import "SingleWaveBar.h"
 
+
 #import "World.h"
 #import "Actor.h"
 #import "SimpleAudioEngine.h"
@@ -33,15 +34,16 @@
 - (void)omidUpdate2
 {
     for (SingleWaveBar *bar in bars) {
-        
-        if (bar.barSprite.position.y >= ((bar.barSprite.contentSize.height/2)+50)) {
+ 
+        if ([bar getBarHeight] <= 0.0) {
+            bar.tempWaveDirection = 1;
+        } else if ([bar getBarHeight] >= 1.0) {
             bar.tempWaveDirection = -1;
         }
-        if (bar.barSprite.position.y <= -13) {
-            bar.tempWaveDirection = 1;
-        }
         
-        bar.barSprite.position = ccpAdd(bar.barSprite.position, CGPointMake(0.0, 7*bar.tempWaveDirection));
+        float oldBarHeight = [bar getBarHeight];
+        
+        [bar setBarHeight:oldBarHeight+0.05*bar.tempWaveDirection];
     }
 }
 
@@ -84,6 +86,18 @@
             
         }
         
+        /*
+        star = [SoundStar node];
+        star.delegate = self;
+        [star addToWorld:world location:ccp(150, 250)];
+        [self addChild:star z:8];
+        
+        stars = [[NSMutableArray alloc] init];
+        
+         [stars addObject:star];
+        */
+        
+        
         CCSprite *lowerBar = [[CCSprite spriteWithFile:@"lowerBar.png"] retain];
         
         lowerBar.position = ccp(winSize.width/2, lowerBar.contentSize.height/2);
@@ -118,7 +132,7 @@
 	b2FixtureDef fixtureDef;
 	fixtureDef.filter.groupIndex = 2;
 	fixtureDef.filter.categoryBits = GROUND_BIT;
-	fixtureDef.filter.maskBits = ACTOR_BIT;
+	fixtureDef.filter.maskBits = ACTOR_BIT^SOUNDSTAR_BIT;
 	
 	b2Body* groundBody = world->CreateBody(&groundBodyDef);
 
@@ -406,20 +420,20 @@
 
 - (void) updateElements
 {		
-	/*
-	int total = [bullets count];
+	
+	int total = [stars count];
 	for (int i = total - 1; i >= 0; i--) 
 	{
-		Bullet *bullet = [bullets objectAtIndex:i];
-		if(bullet.position.y < 0) {
-			[bullet destroy:world];
-			[self removeChild:bullet cleanup:YES];
-			[bullets removeObjectAtIndex:i];
+		SoundStar *thisStar = [stars objectAtIndex:i];
+		if(thisStar.position.y < 0) {
+			[thisStar destroy:world];
+			[self removeChild:thisStar cleanup:YES];
+			[stars removeObjectAtIndex:i];
 		}
 	}
-	*/
 	
-	//TRACE(@"total bullets, %d", [bullets count]);
+	
+	TRACE(@"total bullets, %d", [stars count]);
 		
 	if(moving == YES)
 	{

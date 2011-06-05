@@ -6,6 +6,8 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
+#import "SoundStar.h"
+
 #import "cocos2d.h"
 #import "Box2D.h"
 #import "GLES-Render.h"
@@ -22,6 +24,9 @@
 @interface World : CCLayer <GameDelegate>
 {
     NSMutableArray *bars;
+    SoundStar *star;
+    
+    NSMutableArray *stars;
     
 	NSMutableArray *bullets;
 	NSMutableArray *shieldPaths;
