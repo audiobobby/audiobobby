@@ -14,6 +14,7 @@
 		53CDC311139B5ABD00E50A7E /* meter.png in Resources */ = {isa = PBXBuildFile; fileRef = 53CDC30B139B5ABD00E50A7E /* meter.png */; };
 		53CDC312139B5ABD00E50A7E /* star-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = 53CDC30C139B5ABD00E50A7E /* star-hd.png */; };
 		53CDC313139B5ABD00E50A7E /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = 53CDC30D139B5ABD00E50A7E /* star.png */; };
+		AB096952139C0CFE00C38ABD /* 8bitWonder32.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AB096951139C0CFE00C38ABD /* 8bitWonder32.ttf */; };
 		AB543E0E139B2367001ADF27 /* FinalScene.m in Sources */ = {isa = PBXBuildFile; fileRef = AB543E0D139B2367001ADF27 /* FinalScene.m */; };
 		AB543EF9139B2AC0001ADF27 /* SHKOAuthSharer.m in Sources */ = {isa = PBXBuildFile; fileRef = AB543E29139B2AC0001ADF27 /* SHKOAuthSharer.m */; };
 		AB543EFA139B2AC0001ADF27 /* SHKSharer.m in Sources */ = {isa = PBXBuildFile; fileRef = AB543E2B139B2AC0001ADF27 /* SHKSharer.m */; };
@@ -336,6 +337,7 @@
 		53CDC30B139B5ABD00E50A7E /* meter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = meter.png; sourceTree = "<group>"; };
 		53CDC30C139B5ABD00E50A7E /* star-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-hd.png"; sourceTree = "<group>"; };
 		53CDC30D139B5ABD00E50A7E /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
+		AB096951139C0CFE00C38ABD /* 8bitWonder32.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = 8bitWonder32.ttf; sourceTree = "<group>"; };
 		AB543E0C139B2367001ADF27 /* FinalScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FinalScene.h; sourceTree = "<group>"; };
 		AB543E0D139B2367001ADF27 /* FinalScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FinalScene.m; sourceTree = "<group>"; };
 		AB543E28139B2AC0001ADF27 /* SHKOAuthSharer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHKOAuthSharer.h; sourceTree = "<group>"; };
@@ -2125,6 +2127,7 @@
 		C79CD73B139AC32000D603D3 /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				AB096951139C0CFE00C38ABD /* 8bitWonder32.ttf */,
 				C79CD755139AC85900D603D3 /* 8bitWonder32.fnt */,
 				C79CD756139AC85900D603D3 /* 8bitWonder32.png */,
 			);
@@ -2260,6 +2263,7 @@
 				53CDC311139B5ABD00E50A7E /* meter.png in Resources */,
 				53CDC312139B5ABD00E50A7E /* star-hd.png in Resources */,
 				53CDC313139B5ABD00E50A7E /* star.png in Resources */,
+				AB096952139C0CFE00C38ABD /* 8bitWonder32.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
