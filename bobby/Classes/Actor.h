@@ -45,6 +45,7 @@ typedef enum {
 	float speed;
 	b2Fixture *fixture;
 	b2Body *body;
+	int lastAction;
 }
 
 @property (nonatomic, assign) id <GameDelegate> delegate;

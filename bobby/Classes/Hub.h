@@ -25,6 +25,7 @@
 	float lifeMaxWidth, lifeWidth;
 	float step;
 	Actor *actor;
+	int lastAction;
 }
 
 @property (nonatomic, assign) id <GameDelegate> delegate;

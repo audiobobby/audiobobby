@@ -66,7 +66,7 @@
 		hub.worldDelegate = world;
 		[self addChild:hub z:12];
 		//[hub show];
-		[self performSelector:@selector(startGame) withObject:nil afterDelay:1];
+		[self performSelector:@selector(startGame) withObject:nil afterDelay:0.3];
 	}
 	return self;
 }

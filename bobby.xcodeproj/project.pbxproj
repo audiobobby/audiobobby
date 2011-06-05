@@ -532,8 +532,6 @@
 		C79CD68D139AA26600D603D3 /* GLES-Render.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; name = "GLES-Render.mm"; path = "../GLES-Render.mm"; sourceTree = "<group>"; };
 		C79CD68F139AA26600D603D3 /* GameConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GameConfig.h; path = ../GameConfig.h; sourceTree = "<group>"; };
 		C79CD690139AA26600D603D3 /* blocks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blocks.png; path = Resources/blocks.png; sourceTree = "<group>"; };
-		C79CD698139AA35400D603D3 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
-		C79CD699139AA35400D603D3 /* GameScene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameScene.mm; sourceTree = "<group>"; };
 		C79CD6AF139AA4A500D603D3 /* GameScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameScene.h; sourceTree = "<group>"; };
 		C79CD6B0139AA4A500D603D3 /* GameScene.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameScene.mm; sourceTree = "<group>"; };
 		C79CD6B1139AA4A500D603D3 /* Hub.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Hub.h; sourceTree = "<group>"; };
@@ -1212,8 +1210,6 @@
 				C79CD6C9139AA59E00D603D3 /* IntroScene.m */,
 				C79CD6B7139AA4A500D603D3 /* Tips.h */,
 				C79CD6B8139AA4A500D603D3 /* Tips.mm */,
-				C79CD698139AA35400D603D3 /* GameScene.h */,
-				C79CD699139AA35400D603D3 /* GameScene.mm */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";

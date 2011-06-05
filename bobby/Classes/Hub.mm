@@ -63,18 +63,15 @@
 		[self addChild:pauseButton];
 		
 		leftBtn = [Button buttonWithImage:PNG(@"btn_Left") onImage:PNG(@"btn_LeftHit") 
-															atPosition:ccp(xpad + padding, padding) target:self selector:@selector(moveLeft)];
-		//leftBtn.anchorPoint = ccp(0, 0);
+													 atPosition:ccp(xpad + padding, padding) target:self selector:@selector(moveLeft:) rapid:YES];
 		[self addChild:leftBtn];
 
 		rightBtn = [Button buttonWithImage:PNG(@"btn_Right") onImage:PNG(@"btn_RightHit") 
-															atPosition:ccp(xpad + padding + buttonWidth*2, padding) target:self selector:@selector(moveRight)];
-		//rightBtn.anchorPoint = ccp(0, 0);
+														atPosition:ccp(xpad + padding + buttonWidth*2, padding) target:self selector:@selector(moveRight:) rapid:YES];
 		[self addChild:rightBtn];
 		
 		jumpBtn = [Button buttonWithImage:PNG(@"btn_Up") onImage:PNG(@"btn_UpHit") 
-															atPosition:ccp(winSize.width-padding - xpad, padding) target:self selector:@selector(moveUp)];
-		//jumpBtn.anchorPoint = ccp(1, 0);
+													 atPosition:ccp(winSize.width-padding - xpad, padding) target:self selector:@selector(moveUp:) rapid:YES];
 		[self addChild:jumpBtn];
 		
 		//self.position = ccp(0, winSize.height + winSize.height/10.0);
@@ -84,23 +81,21 @@
 
 - (void) onActorCreated:(NSNotification *)notif
 {
-	TRACE(@"HERE");
 	actor = [notif object];
 }
 
-- (void) moveLeft
+- (void) moveLeft:(Button *)button
 {
 	[actor move:MoveActionLeft];
 }
 
-- (void) moveRight
+- (void) moveRight:(Button *)button
 {
 	[actor move:MoveActionRight];
 }
 
-- (void) moveUp
+- (void) moveUp:(Button *)button
 {
-	TRACE(@"jump");
 	[actor move:MoveActionJump];
 }
 

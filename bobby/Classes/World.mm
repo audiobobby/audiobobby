@@ -41,9 +41,9 @@
 		
 		b2Vec2 gravity;
 		if([[Properties sharedProperties] isLowResIPhone] == NO) {
-			gravity.Set(0.0f, -6.0f);
+			gravity.Set(0.0f, -20.0f);
 		} else {
-			gravity.Set(0.0f, -3.0f);
+			gravity.Set(0.0f, -10.0f);
 		}
 		
 		// Do we want to let bodies sleep?

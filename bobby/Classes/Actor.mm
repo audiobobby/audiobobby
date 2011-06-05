@@ -82,13 +82,19 @@
 
 - (void) move:(int)move
 {
-	TRACE(@"MOVE: %d", move);
+	TRACE(@"MOVE: %d, %d", move, MoveActionJump);
+	if(move == lastAction) {
+		move = MoveActionIdle;
+	}
+	lastAction = move;
 	switch (move) {
 		case MoveActionJump:
 			{
+				TRACE(@"jumping");
 				b2Vec2 center = self.body->GetWorldCenter();
-				float impulse = 10.0;
-				self.body->ApplyLinearImpulse(b2Vec2(impulse, 0), center);
+				float impulse = self.radius * 35;
+				self.body->ApplyLinearImpulse(b2Vec2(0.0, impulse), center);
+				move = MoveActionIdle;
 			}
 			break;
 			
@@ -103,6 +109,10 @@
 		case MoveActionIdle:
 			self.body->SetLinearVelocity(b2Vec2(0, 0));
 			break;	
+			
+		default:
+			TRACE(@"default");
+			break;
 	}
 }
 
