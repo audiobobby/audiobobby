@@ -326,7 +326,26 @@
 		C79CD75A139ACD6F00D603D3 /* btnPause.png in Resources */ = {isa = PBXBuildFile; fileRef = C79CD759139ACD6F00D603D3 /* btnPause.png */; };
 		C79CD75C139ACEFA00D603D3 /* btnLeaderboard-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C79CD75B139ACEF900D603D3 /* btnLeaderboard-hd.png */; };
 		C79CD75E139ACF1D00D603D3 /* btnPause-hd.png in Resources */ = {isa = PBXBuildFile; fileRef = C79CD75D139ACF1D00D603D3 /* btnPause-hd.png */; };
+		D95FA604139C1182007A8842 /* libAudioGameKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D95FA603139C1182007A8842 /* libAudioGameKit.a */; };
+		D95FA606139C1227007A8842 /* AGKMediaSelector.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95FA605139C1227007A8842 /* AGKMediaSelector.xib */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D95FA5FF139C115C007A8842 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D95FA5F8139C115B007A8842 /* AudioGameKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D95FA048139AA01C007A8842;
+			remoteInfo = AudioGameKit;
+		};
+		D95FA601139C1178007A8842 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D95FA5F8139C115B007A8842 /* AudioGameKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D95FA047139AA01C007A8842;
+			remoteInfo = AudioGameKit;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		53CDC304139B59A800E50A7E /* SingleWaveBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleWaveBar.h; sourceTree = "<group>"; };
@@ -930,6 +949,9 @@
 		C79CD759139ACD6F00D603D3 /* btnPause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btnPause.png; sourceTree = "<group>"; };
 		C79CD75B139ACEF900D603D3 /* btnLeaderboard-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btnLeaderboard-hd.png"; sourceTree = "<group>"; };
 		C79CD75D139ACF1D00D603D3 /* btnPause-hd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btnPause-hd.png"; sourceTree = "<group>"; };
+		D95FA5F8139C115B007A8842 /* AudioGameKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AudioGameKit.xcodeproj; path = vendors/AudioGameKit/AudioGameKit.xcodeproj; sourceTree = "<group>"; };
+		D95FA603139C1182007A8842 /* libAudioGameKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAudioGameKit.a; sourceTree = SOURCE_ROOT; };
+		D95FA605139C1227007A8842 /* AGKMediaSelector.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AGKMediaSelector.xib; path = vendors/AudioGameKit/AudioGameKit/AGKMediaSelector.xib; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -937,6 +959,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D95FA604139C1182007A8842 /* libAudioGameKit.a in Frameworks */,
 				AB543F4D139B2B81001ADF27 /* MessageUI.framework in Frameworks */,
 				AB543F4B139B2B4A001ADF27 /* Security.framework in Frameworks */,
 				C79CD6FD139AAE6300D603D3 /* SystemConfiguration.framework in Frameworks */,
@@ -959,6 +982,7 @@
 		AB543E24139B23F1001ADF27 /* vendors */ = {
 			isa = PBXGroup;
 			children = (
+				D95FA5F8139C115B007A8842 /* AudioGameKit.xcodeproj */,
 				AB543E25139B2AC0001ADF27 /* ShareKit */,
 			);
 			name = vendors;
@@ -1488,6 +1512,7 @@
 		C79CD4BF139AA26200D603D3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D95FA605139C1227007A8842 /* AGKMediaSelector.xib */,
 				C77D635E139AE229001CDDC3 /* Sprites */,
 				C79CD73B139AC32000D603D3 /* fonts */,
 				C79CD715139ABDB800D603D3 /* Buttons */,
@@ -1509,6 +1534,7 @@
 		C79CD4D3139AA26200D603D3 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				D95FA603139C1182007A8842 /* libAudioGameKit.a */,
 				C79CD5C9139AA26400D603D3 /* LICENSE_cocos2d.txt */,
 				C79CD5D8139AA26400D603D3 /* LICENSE_CocosDenshion.txt */,
 				C79CD5E3139AA26400D603D3 /* LICENSE_TouchJSON.txt */,
@@ -2135,6 +2161,14 @@
 			path = Resources/fonts;
 			sourceTree = "<group>";
 		};
+		D95FA5F9139C115B007A8842 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D95FA600139C115C007A8842 /* libAudioGameKit.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2149,6 +2183,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D95FA602139C1178007A8842 /* PBXTargetDependency */,
 			);
 			name = bobby;
 			productName = bobby;
@@ -2178,12 +2213,28 @@
 			mainGroup = C79CD49F139AA26200D603D3;
 			productRefGroup = C79CD4AB139AA26200D603D3 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D95FA5F9139C115B007A8842 /* Products */;
+					ProjectRef = D95FA5F8139C115B007A8842 /* AudioGameKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				C79CD4A9139AA26200D603D3 /* bobby */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D95FA600139C115C007A8842 /* libAudioGameKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAudioGameKit.a;
+			remoteRef = D95FA5FF139C115C007A8842 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C79CD4A8139AA26200D603D3 /* Resources */ = {
@@ -2264,6 +2315,7 @@
 				53CDC312139B5ABD00E50A7E /* star-hd.png in Resources */,
 				53CDC313139B5ABD00E50A7E /* star.png in Resources */,
 				AB096952139C0CFE00C38ABD /* 8bitWonder32.ttf in Resources */,
+				D95FA606139C1227007A8842 /* AGKMediaSelector.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2511,6 +2563,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		D95FA602139C1178007A8842 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AudioGameKit;
+			targetProxy = D95FA601139C1178007A8842 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		AB543E6B139B2AC0001ADF27 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
@@ -2577,9 +2637,12 @@
 				GCC_PREFIX_HEADER = bobby/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = bobby/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/bobby/Classes/FlurryLib\"",
+					"\"$(SRCROOT)\"",
+					"\"$(SRCROOT)/vendors/AudioGameKit/AudioGameKit\"",
 				);
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2597,9 +2660,11 @@
 				GCC_PREFIX_HEADER = bobby/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
 				INFOPLIST_FILE = bobby/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/bobby/Classes/FlurryLib\"",
+					"\"$(SRCROOT)\"",
 				);
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";
