@@ -38,7 +38,7 @@
 	if( (self=[super init])) 
 	{	
 		
-		CGSize size = [[CCDirector sharedDirector] winSize];
+		//CGSize size = [[CCDirector sharedDirector] winSize];
 		
 		if([[Properties sharedProperties] isLowResIPhone])
 		{
@@ -55,24 +55,18 @@
 		
 		//////////////////
 		
-		TRACE(@"init world");
-		
 		world = [World node];
 		world.anchorPoint = ccp(0, 0);
 		world.position = ccp(0, 0);
 		world.delegate = self;
 		[self addChild:world z:10];
 		
-		TRACE(@"init hub");
-		
 		hub = [Hub node];
 		hub.delegate = self;
+		hub.worldDelegate = world;
 		[self addChild:hub z:12];
 		//[hub show];
-		
-		//////////////
-		
-		cloudSpeed = 0; 
+		[self performSelector:@selector(startGame) withObject:nil afterDelay:0.3];
 	}
 	return self;
 }
@@ -124,12 +118,12 @@
 	
 	//[hub setLife:lives];
 	[hub reset];
-	[hub show];
+	//[hub show];
 	
 	
 	//[self schedule:@selector(tick:) interval:0.5];	
 	
-	//[world initRun];
+	[world initRun];
 }
 
 - (void) pauseGame

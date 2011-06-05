@@ -8,10 +8,11 @@
 
 #import "Hub.h"
 #import "Button.h"
+#import "Actor.h"
 
 @implementation Hub
 
-@synthesize delegate;
+@synthesize delegate, worldDelegate;
 
 
 -(id) init
@@ -29,6 +30,9 @@
 		
 		int padding = ([[Properties sharedProperties] isIPad]) ? 60 : 30;
 		int buttonWidth = 40;
+		int xpad = winSize.width * 0.15;
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onActorCreated:) name:@"ActorCreated" object:nil];
 		
 //#if defined(MULTI_LIVES)
 //		int x = hubTopPadding;
@@ -58,19 +62,16 @@
 		pauseButton.anchorPoint = ccp(0, 0);
 		[self addChild:pauseButton];
 		
-		leftBtn = [Button buttonWithImage:PNG(@"btnPause") onImage:PNG(@"btnPause") 
-															atPosition:ccp(padding, padding) target:self selector:@selector(onAction:)];
-		//leftBtn.anchorPoint = ccp(0, 0);
+		leftBtn = [Button buttonWithImage:PNG(@"btn_Left") onImage:PNG(@"btn_LeftHit") 
+													 atPosition:ccp(xpad + padding, padding) target:self selector:@selector(moveLeft:) rapid:YES];
 		[self addChild:leftBtn];
 
-		rightBtn = [Button buttonWithImage:PNG(@"btnPause") onImage:PNG(@"btnPause") 
-															atPosition:ccp(padding + buttonWidth, padding) target:self selector:@selector(onAction:)];
-		//rightBtn.anchorPoint = ccp(0, 0);
+		rightBtn = [Button buttonWithImage:PNG(@"btn_Right") onImage:PNG(@"btn_RightHit") 
+														atPosition:ccp(xpad + padding + buttonWidth*2, padding) target:self selector:@selector(moveRight:) rapid:YES];
 		[self addChild:rightBtn];
 		
-		jumpBtn = [Button buttonWithImage:PNG(@"btnPause") onImage:PNG(@"btnPause") 
-															atPosition:ccp(winSize.width-padding, padding) target:self selector:@selector(onAction:)];
-		//jumpBtn.anchorPoint = ccp(1, 0);
+		jumpBtn = [Button buttonWithImage:PNG(@"btn_Up") onImage:PNG(@"btn_UpHit") 
+													 atPosition:ccp(winSize.width-padding - xpad, padding) target:self selector:@selector(moveUp:) rapid:YES];
 		[self addChild:jumpBtn];
 		
 		//self.position = ccp(0, winSize.height + winSize.height/10.0);
@@ -78,12 +79,24 @@
 	return self;
 }
 
-- (void) onAction:(id)sender
+- (void) onActorCreated:(NSNotification *)notif
 {
-	if(sender == leftBtn)
-	{
-		
-	}
+	actor = [notif object];
+}
+
+- (void) moveLeft:(Button *)button
+{
+	[actor move:MoveActionLeft];
+}
+
+- (void) moveRight:(Button *)button
+{
+	[actor move:MoveActionRight];
+}
+
+- (void) moveUp:(Button *)button
+{
+	[actor move:MoveActionJump];
 }
 
 - (void) show 

@@ -127,6 +127,9 @@
 -(void) selected {
 	if(toggleMode == NO)
 	{
+		//TRACE(@"TAP");
+		if(rapid == YES) [super activate];
+		_selected = YES;
 		[self removeChild:back cleanup:NO];
 		[self addChild:backPressed];
 		//back.visible = YES;
@@ -164,6 +167,10 @@
 		}
 		//back.visible = YES;
 		//backPressed.visible = NO;
+	}
+	else
+	{
+		_selected = NO;
 	}
 	[super unselected];
 }

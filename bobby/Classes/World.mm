@@ -11,33 +11,22 @@
 #import "SimpleAudioEngine.h"
 #import "Path.h"
 
-#define SHIELD_ALPHA_STOP 0.2
-#define SHIELD_ALPHA_STEP 0.016
-
 #if DEBUG_MODE
-	#define GOD_MODE 0
-	#define DEBUG_PHYSIC 0
-	#define LEVEL_DURATION 25
+	#define DEBUG_PHYSIC 1
 #else
-	#define GOD_MODE 0
 	#define DEBUG_PHYSIC 0
-	#define LEVEL_DURATION 45
 #endif
 
 @interface World (internal)
 - (void) startRun;
 - (void) updateElements;
 - (void) createGround;
-- (void) removeShield;
-- (void) initShotTable:(int[])table;
-- (void) shuffle;
-- (void) showactorAtLocation:(float)pos;
-- (void) createGround:(int)gid;
+- (void) showActorAtLocation:(CGPoint)pos;
 @end
 
 @implementation World
 
-@synthesize delegate;
+@synthesize delegate, actor;
 
 
 -(id) init
@@ -47,15 +36,14 @@
 		firstRun = YES;
 		winSize = [CCDirector sharedDirector].winSize;
 		cloudSpeedRatio = ([[Properties sharedProperties] isLowRes]) ? 10 : 5;
-		speedStep = 0.04;
 		
 		startTime = [[NSDate date] retain];
 		
 		b2Vec2 gravity;
 		if([[Properties sharedProperties] isLowResIPhone] == NO) {
-			gravity.Set(0.0f, -6.0f);
+			gravity.Set(0.0f, -20.0f);
 		} else {
-			gravity.Set(0.0f, -3.0f);
+			gravity.Set(0.0f, -10.0f);
 		}
 		
 		// Do we want to let bodies sleep?
@@ -84,207 +72,48 @@
 		m_debugDraw->SetFlags(flags);		
 #endif
 		
+		[self createGround];
 	}
 	return self;
 }
 
-- (void) restoreShield
-{
-	[self unschedule:@selector(restoreShield)];
-	if(shieldCounter > 0) {
-		shieldCounter = 1;
-	}
-}
 
-- (void) createShieldPath:(CGPoint)p1 to:(CGPoint)p2
+- (void) createGround
 {
-	p1.x = p1.x - self.position.x;
-	p2.x = p2.x - self.position.x;
-	//TRACE(@"create path:%f %f, %f %f", p1.x, p1.y, p2.x, p2.y);
-	Path *path = [Path node];
-	b2BodyDef bodyDef;
-	bodyDef.userData = path;
-	path.body = world->CreateBody(&bodyDef);
-	b2PolygonShape pathShape;
-	pathShape.SetAsEdge(b2Vec2(p1.x/PTM_RATIO, p1.y/PTM_RATIO), b2Vec2(p2.x/PTM_RATIO, p2.y/PTM_RATIO));
+	b2BodyDef groundBodyDef;
+	groundBodyDef.position.Set(0, 0); 
+
 	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &pathShape;
 	fixtureDef.filter.groupIndex = 2;
-	fixtureDef.filter.categoryBits = PATH_BIT;
-	fixtureDef.filter.maskBits = BULLET_BIT;
-	fixtureDef.userData = path;
-	path.fixture = path.body->CreateFixture(&fixtureDef);
-	[shieldPaths addObject:path];
+	fixtureDef.filter.categoryBits = GROUND_BIT;
+	fixtureDef.filter.maskBits = ACTOR_BIT;
+	
+	b2Body* groundBody = world->CreateBody(&groundBodyDef);
+
+	b2PolygonShape groundBox;		
+	
+	float leftX = 0; 
+	
+	// bottom
+	groundBox.SetAsEdge(b2Vec2(leftX, 60.0/PTM_RATIO), b2Vec2(winSize.width/PTM_RATIO, 60.0/PTM_RATIO));
+	fixtureDef.shape = &groundBox;
+	groundFixture = groundBody->CreateFixture(&fixtureDef);
+	
+	// left
+	groundBox.SetAsEdge(b2Vec2(leftX, winSize.height/PTM_RATIO), b2Vec2(leftX,0));
+	fixtureDef.shape = &groundBox;	
+	wallFixture = groundBody->CreateFixture(&fixtureDef);
+	
+	// right
+	groundBox.SetAsEdge(b2Vec2(winSize.width/PTM_RATIO, winSize.height/PTM_RATIO), b2Vec2(winSize.width/PTM_RATIO, 0));
+	fixtureDef.shape = &groundBox;
+	groundBody->CreateFixture(&fixtureDef);
+	
+	// top
+	groundBox.SetAsEdge(b2Vec2(leftX, winSize.height/PTM_RATIO), b2Vec2(winSize.width/PTM_RATIO, winSize.height));
+	fixtureDef.shape = &groundBox;
+	groundBody->CreateFixture(&fixtureDef);
 }
-
-- (void) drawShield:(CGPoint [])points total:(int)total fade:(float)fade
-{
-	float newTimestamp = [startTime timeIntervalSinceNow]; 
-	float diff = fabs(newTimestamp - timestamp);
-	
-	//NSLog(@"%f, diff:%f", fade, diff);
-	if(diff < shieldDiff)
-	{
-		shieldCounter++;
-		if(shieldCounter > shieldCounterMax) shieldCounter = shieldCounterMax;
-	}
-	else 
-	{
-		shieldCounter--;
-		if(shieldCounter < 0) shieldCounter = 0;
-	}
-	
-	timestamp = newTimestamp;
-	
-	TRACE(@"add shield");
-	
-	if(shieldCounter >= shieldCounterMax) {
-		[delegate showMessage:@"Slow down or you'll get overheated!" offset:0];
-		//[delegate addPoints:-100];
-		return;
-	}
-	
-	if([shieldPaths count] > 0) {
-		[self removeShield];
-	}
-	trailTotal = total;
-	trail[0] = CGPointMake(points[0].x - self.position.x, points[0].y);
-	for (int i = 1; i < total; i++) {
-		[self createShieldPath:points[i-1] to:points[i]];
-		trail[i] = CGPointMake(points[i].x - self.position.x, points[i].y);
-	}	
-	
-	shieldActive = YES;
-	lineAlpha = fade;
-	
-	[[SimpleAudioEngine sharedEngine] playEffect:@"shield.caf" pitch:1 pan:0 gain:0.5];
-	[delegate addPoints:-20];
-}
-
-- (void) removeShield
-{
-	TRACE(@"remove shield, %d", [shieldPaths count]);
-	//[self unschedule:@selector(removeShield)];
-	for(Path *path in shieldPaths)
-	{
-		[path destroy:world];
-	}
-	[shieldPaths removeAllObjects];
-	shieldActive = NO;
-}
-
-
-- (void) shuffle
-{
-	shieldCounterMax = 3;
-	shieldDiff = 0.4;
-	currentShot = 0;
-	int level = [delegate currentLevel];
-	TRACE(@"CHANGE LEVEL: %d", level);
-/*
-#if DEBUG_MODE
-	delayOffset = 1.0;
-	concurrent = 2;
-	//int table1[] = {ObjectTypeSpear, 50, ObjectTypeCannonball, 50, ObjectTypeFireball, 50, ObjectTypePellet, 50, ObjectTypeArrow, 50, ObjectTypeIceball, 50, ObjectTypeSpitball, 50};
-	int table1[] = {ObjectTypeSpear, 5, ObjectTypeCannonball, 5, ObjectTypeFireball, 5, ObjectTypePellet, 0, ObjectTypeArrow, 0, ObjectTypeIceball, 50, ObjectTypeSpitball, 50};
-	[self initShotTable:table1];
-	return;
-#endif
-	*/
-		
-}
-
-- (void) initShotTable:(int[])table
-{
-	int len = 14;
-	int n = 0;
-	for (int i = 0; i < len; i=i+2) 
-	{
-		int cnt = table[i+1];
-		int weapon = table[i];
-		for (int j = 0; j < cnt; j++) 
-		{
-			shotTable[n] = weapon;
-			n++;
-		}
-	}
-	
-	totalShots = n;
-	
-	/*
-#if DEBUG_MODE
-	for(int i = 0; i < totalShots; i++)
-	{
-		TRACE(@"%d %d", i, shotTable[i]);
-	}
-	TRACE(@"===============");
-#endif
-	*/
-	
-	int total = (arc4random() % 5)+1;
-	for(int j = 0; j < total; j++)
-	{
-		for(int i = 1; i < totalShots; i++)
-		{
-			int n = arc4random() % 2;
-			if(n != 1) continue;
-			int t = shotTable[i-1];
-			shotTable[i-1] = shotTable[i];
-			shotTable[i] = t;
-		}
-		for(int i = 1; i < totalShots; i++)
-		{
-			int n = arc4random() % (totalShots);
-			int t = shotTable[n];
-			shotTable[n] = shotTable[i];
-			shotTable[i] = t;
-		}
-	}
-	
-	/*
-#if DEBUG_MODE
-	 for(int i = 0; i < totalShots; i++)
-	 {
-		 TRACE(@"%d %d", i, shotTable[i]);
-	 }
-#endif
-	*/
-}
-
-- (void) gotoNextLevel
-{
-#if defined(LITE_APP)
-	if([delegate currentLevel] < MAX_LEVELS-1)
-	{
-		[delegate nextLevel];
-	}
-	else 
-	{
-		[self stopFollow];
-	}
-#else
-	[delegate nextLevel];
-#endif
-	reshuffle = YES;
-}
-
-
-//- (void) attack
-//{
-//	[self unschedule:@selector(attack)];
-//	float delay = delayOffset + ((arc4random() % 100)/100.0) * 1.0;
-//	TRACE(@"delay: %f", delay);
-//	if(reshuffle == YES) {
-//		[self shuffle];
-//		reshuffle = NO;
-//	}
-//	for(int i = 0; i < concurrent; i++)
-//	{
-//		[self shoot];
-//	}
-//	[self schedule:@selector(attack) interval:delay];
-//}
-
 
 ///////////////
 
@@ -338,74 +167,20 @@
 }
 */
 
-- (void) showActorAtLocation:(float)pos
+- (void) showActorAtLocation:(CGPoint)pos
 {
 	//TRACE(@"show actor start at:%f, %f, %f", pos, self.position.x, pos - self.position.x);
 	
-	speed = ([[Properties sharedProperties] isIPad]) ? 10 : 5;
+	//speed = ([[Properties sharedProperties] isIPad]) ? 10 : 5;
 	
 	actor = [Actor node];
 	actor.delegate = self;
-	actor.position = ccp(pos, winSize.height*0.25);
+	[actor addToWorld:world location:pos];
 	[self addChild:actor z:9];
-	[actor setMode:ModeLanding];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"ActorCreated" object:actor];	
+	//[actor setMode:AnimationIdle];
 		
-	b2BodyDef bodyDef;
-	bodyDef.type = b2_dynamicBody;
-	bodyDef.position.Set((actor.position.x + (actor.radius/2.0))/PTM_RATIO, actor.position.y/PTM_RATIO);
-	bodyDef.userData = actor;
-	actor.body = world->CreateBody(&bodyDef);
-	
-	b2CircleShape shape;
-	shape.m_radius = actor.radius/PTM_RATIO;
-	//shape.m_p = b2Vec2(0, -(actor.radius*0.3)/PTM_RATIO);
-	
-	b2FixtureDef fixtureDef;
-	fixtureDef.shape = &shape;	
-	fixtureDef.density = actor.contentSize.width*0.5;
-	fixtureDef.filter.groupIndex = 1;
-	fixtureDef.filter.categoryBits = ACTOR_BIT;
-	fixtureDef.filter.maskBits = GROUND_BIT;
-	fixtureDef.userData = actor;
-	actor.fixture = actor.body->CreateFixture(&fixtureDef);
-	
-	b2PolygonShape poly;
-	//row 1, col 1
-	//int num = 7;
-	
-	float scale_ratio = ([[Properties sharedProperties] isLowResIPhone] == NO) ? PTM_RATIO : 2*PTM_RATIO;
-	
-	b2Vec2 hverts[] = {
-		b2Vec2(-49.0f / scale_ratio, 1.5f / scale_ratio),
-		b2Vec2(-44.0f / scale_ratio, -29.5f / scale_ratio),
-		b2Vec2(28.0f / scale_ratio, -22.5f / scale_ratio),
-		b2Vec2(41.0f / scale_ratio, 10.5f / scale_ratio),
-		b2Vec2(61.0f / scale_ratio, 5.5f / scale_ratio),
-		b2Vec2(46.0f / scale_ratio, 31.5f / scale_ratio)
-	};	
-	poly.Set(hverts, 6);
-	//shape.m_radius = (actor.radius*0.7)/PTM_RATIO;
-	fixtureDef.shape = &poly;
-	fixtureDef.filter.categoryBits = HITAREA_BIT;
-	fixtureDef.filter.maskBits = BULLET_BIT;
-	actor.body->CreateFixture(&fixtureDef);
-	
-	/////////////
-	
-	b2Vec2 rverts[] = {
-    b2Vec2(-12.0f / scale_ratio, 19.5f / scale_ratio),
-    b2Vec2(-10.0f / scale_ratio, -16.5f / scale_ratio),
-    b2Vec2(3.0f / scale_ratio, 3.5f / scale_ratio),
-    b2Vec2(22.0f / scale_ratio, 38.5f / scale_ratio),
-    b2Vec2(17.0f / scale_ratio, 45.5f / scale_ratio)
-	};
-	poly.Set(rverts, 5);
-	fixtureDef.shape = &poly;
-	fixtureDef.filter.categoryBits = HITAREA_BIT;
-	fixtureDef.filter.maskBits = BULLET_BIT;
-	actor.body->CreateFixture(&fixtureDef);
-	
-	//////////////////
+		//////////////////
 	
 	[self unscheduleUpdate];
 	[self scheduleUpdate];
@@ -415,14 +190,13 @@
 	//[delegate startGame];
 		
 	active = YES;
-	following = NO;
 	moving = YES;
 	
-	[self shuffle];
+	//[self shuffle];
 	
 
-	actor.body->SetLinearVelocity(b2Vec2(speed, 0));
-	[actor setMode:ModeRunning];
+	//actor.body->SetLinearVelocity(b2Vec2(speed, 0));
+	//[actor setMode:ModeRunning];
 	
 	
 }
@@ -445,16 +219,6 @@
 - (void) startRun
 {
 	TRACE(@"[start run]");
-	[delegate setBackgroundSpeed:speed/10.0];
-	CCAction *action = [CCFollow actionWithTarget:actor];
-	action.tag = 111;
-	[self runAction:action];
-	following = YES;
-	[self schedule:@selector(attack) interval:1];
-	float length = ([delegate currentLevel] <= [Properties sharedProperties].level) ? LEVEL_DURATION : LEVEL_DURATION/2.0;
-	[self schedule:@selector(gotoNextLevel) interval:length];
-	shieldCounter = 0;
-
 }
 
 - (void) endRun
@@ -471,71 +235,16 @@
 	moving = NO;
 	active = NO;
 	dying = NO;
-	[delegate setBackgroundSpeed:0];
-	following = NO;
-}
-
-- (void) stopFollow
-{
-	[self unschedule:@selector(attack)];
-	[delegate setBackgroundSpeed:0];
-	[self stopActionByTag:111];
-	[self schedule:@selector(stopRun) interval:3];
 }
 
 - (void) stopRun
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"ShowUpgrade" object:nil];
 	[delegate endGame];
 }
 
 ////////////////
 
-
-void drawArrow(CGPoint p1, CGPoint p2, int width, CGPoint *pa, CGPoint *pc)
-{	
-	float r = atan2( p2.y - p1.y , p2.x - p1.x );
-	float bx = p1.x;
-	float by = p1.y;
-	r += M_PI_2; // perpendicular to path
-	float ax = p2.x + cos( r ) * width;
-	float ay = p2.y + sin( r ) * width;
-	float cx = p2.x - cos( r ) * width;
-	float cy = p2.y - sin( r ) * width;
-	
-	CGPoint vertices[] = { ccp(ax, ay), ccp(bx,by), ccp(cx,cy) };
-	
-	glLineWidth(1.0f);
-	ccDrawPoly( vertices, 3, YES);
-	
-	*pa = ccp(ax, ay);
-	*pc = ccp(cx, cy);
-}
-
-void drawPoly(CGPoint p1, CGPoint p2, int width, CGPoint *pa, CGPoint *pc)
-{	
-	CGPoint a1 = *pa;
-	CGPoint c1 = *pc;
-	float r = atan2( p2.y - p1.y , p2.x - p1.x );
-	float dx = p2.x; //p1.x + cos( r ) * head;
-	float dy = p2.y; //p1.y + sin( r ) * head;
-	r += M_PI_2; // perpendicular to path
-	
-	float a2x = dx + cos( r ) * width;
-	float a2y = dy + sin( r ) * width;
-	float c2x = dx - cos( r ) * width;
-	float c2y = dy - sin( r ) * width;
-	
-	CGPoint vertices[] = { a1, c1, ccp(c2x,c2y), ccp(a2x,a2y) };
-	
-	glLineWidth(1.0f);
-	ccDrawPoly( vertices, 4, YES);
-	*pa = ccp(a2x, a2y);
-	*pc = ccp(c2x, c2y);
-}
-
-////////////////
-
+#if DEBUG_PHYSIC	
 -(void) draw
 {
 	// Default GL states: GL_TEXTURE_2D, GL_VERTEX_ARRAY, GL_COLOR_ARRAY, GL_TEXTURE_COORD_ARRAY
@@ -545,62 +254,16 @@ void drawPoly(CGPoint p1, CGPoint p2, int width, CGPoint *pa, CGPoint *pc)
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
-	
-#if DEBUG_PHYSIC		
+		
 	world->DrawDebugData();
-#endif
-	
-	/*
-	if(shieldActive == YES)
-	{
-		glEnable(GL_LINE_SMOOTH);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
-		
-		int count = 0;
-		float lineWidth = trailTotal/TRAIL_WIDTH;
-		float step = lineWidth / ((trailTotal+1)*1.0);// * TRAIL_WIDTH_RATIO;
-		//for (int i = trailTotal-1; i > 0; i--) 
-		for (int i = 1; i < trailTotal; i++) 
-		{
-			int n = i - 1;
-			glColor4ub(0,0,0,(int)255*lineAlpha);
-			glLineWidth(lineWidth);
-			if(n == 0)
-			{
-				if(trailTotal > 2) {
-					drawArrow(trail[n], trail[i], lineWidth, &pa, &pc);
-				} else {
-					glLineWidth(1.0f);
-					ccDrawLine(trail[n], trail[i]);
-				}
-			}	else {
-				drawPoly(trail[n], trail[i], lineWidth, &pa, &pc);
-			}
-			//lineWidth *= TRAIL_DECREMENT;
-			lineWidth -= step;
-			if(lineWidth < 1) lineWidth = 1;
-			count++;
-		}
-		
-		glDisable(GL_LINE_SMOOTH);
-		glBlendFunc(CC_BLEND_SRC, CC_BLEND_DST);
-		
-		
-	 lineAlpha -= SHIELD_ALPHA_STEP;
-	 if(lineAlpha <= SHIELD_ALPHA_STOP) {
-		 shieldActive = NO;
-		 [self removeShield];
-	 }
-	}
-	 */
-
 	
 	// restore default GL states
 	glEnable(GL_TEXTURE_2D);
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);	
 }
+
+#endif
 
 - (void) landed:(b2Fixture *)fixture
 {
@@ -676,9 +339,10 @@ void drawPoly(CGPoint p1, CGPoint p2, int width, CGPoint *pa, CGPoint *pc)
 			CCSprite *myActor = (CCSprite*)b->GetUserData();
 			if(myActor.tag == ObjectTypeRemoving) continue;
 			myActor.position = CGPointMake( b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO);
-//			if(myActor.tag != ObjectTypeactor && myActor.tag != ObjectTypeFireball && myActor.tag != ObjectTypeIceball && myActor.tag != ObjectTypeSpitball) {
-//				myActor.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
-//			}
+			if(myActor.tag != ObjectTypeActor)
+			{
+				myActor.rotation = -1 * CC_RADIANS_TO_DEGREES(b->GetAngle());
+			}
 		}	
 	}
 	
@@ -816,10 +480,7 @@ void drawPoly(CGPoint p1, CGPoint p2, int width, CGPoint *pa, CGPoint *pc)
 - (void) initRun
 {
 	[self unschedule:@selector(initRun)];
-	float offset = (firstRun == YES) ? 1.08 : 1.3;
-	newPosition = winSize.width - self.position.x - (winSize.width*offset);
-	TRACE(@"[%f, %f, %f]", newPosition, self.position.x, actor.position.x);
-	[self showactorAtLocation:newPosition];	
+	[self showActorAtLocation:ccp(winSize.width * 0.5, winSize.height * 0.5)];	
 	firstRun = NO;
 	timestamp = [startTime timeIntervalSinceNow]; 
 }
@@ -848,8 +509,6 @@ void drawPoly(CGPoint p1, CGPoint p2, int width, CGPoint *pa, CGPoint *pc)
 	[self unscheduleAllSelectors];
 	[self unscheduleUpdate];	
 	
-	
-	TRACE(@"remove bullets");
 		
 	if(actor != nil) [self removeActor];
 

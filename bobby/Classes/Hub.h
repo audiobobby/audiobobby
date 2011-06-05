@@ -10,9 +10,11 @@
 #import "cocos2d.h"
 
 @class Button;
+@class Actor;
 
 @interface Hub : CCLayer {
 	id <GameDelegate> delegate;
+	id <GameDelegate> worldDelegate;
 	CCLabelBMFont *scoreLabel;
 	CCLabelBMFont *infoLabel;
 	NSNumberFormatter *numFormatter;
@@ -22,9 +24,12 @@
 	CGPoint e1, e2;
 	float lifeMaxWidth, lifeWidth;
 	float step;
+	Actor *actor;
+	int lastAction;
 }
 
 @property (nonatomic, assign) id <GameDelegate> delegate;
+@property (nonatomic, assign) id <GameDelegate> worldDelegate;
 
 - (void) setScore:(int)val;
 - (void) setLevel:(int)val;
