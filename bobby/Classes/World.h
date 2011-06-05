@@ -24,7 +24,6 @@
 @interface World : CCLayer <GameDelegate>
 {
     NSMutableArray *bars;
-	//SoundStar *star;
     
     NSMutableArray *stars;
     

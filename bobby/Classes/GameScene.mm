@@ -125,7 +125,7 @@
 	//[hub show];
 	
 	
-	//[self schedule:@selector(tick:) interval:0.5];	
+	[self schedule:@selector(tick:) interval:0.5];	
 	
 	[world initRun];
 }

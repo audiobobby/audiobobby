@@ -71,7 +71,7 @@
 	fixtureDef.density = self.radius * 2;
 	fixtureDef.filter.groupIndex = 1;
 	fixtureDef.filter.categoryBits = ACTOR_BIT;
-	fixtureDef.filter.maskBits = GROUND_BIT;
+	fixtureDef.filter.maskBits = GROUND_BIT^SOUNDSTAR_BIT;
 	fixtureDef.userData = self;
 	self.fixture = self.body->CreateFixture(&fixtureDef);
 }

@@ -39,6 +39,15 @@
             bar.tempWaveDirection = 1;
         } else if ([bar getBarHeight] >= 1.0) {
             bar.tempWaveDirection = -1;
+            SoundStar *star = [SoundStar node];
+            
+            [star addToWorld:world location:ccp( bar.barSprite.position.x , bar.barSprite.position.y+bar.barSprite.contentSize.height/2+4+star.sprite.contentSize.height/2)];
+            
+            [self addChild:star];
+            star.delegate = self;
+            
+            
+            [stars addObject:star];
         }
         
         float oldBarHeight = [bar getBarHeight];
@@ -82,14 +91,9 @@
             [[bars objectAtIndex:i] setBarHeight:(float)i/10.0];
             
             [self addChild:[[bars objectAtIndex:i] barSprite]];
-            //[self addChild:[[bars objectAtIndex:i] starSprite]];
-            
         }
         
-    stars = [[NSMutableArray alloc] init];   
-        
-        
-        
+        stars = [[NSMutableArray alloc] init];   
         
         CCSprite *lowerBar = [[CCSprite spriteWithFile:@"lowerBar.png"] retain];
         
@@ -243,6 +247,16 @@
 	actor = nil;
 }
 
+- (void)removeStar:(SoundStar *)star
+{
+    TRACE(@"remove star");
+	world->DestroyBody(star.body);
+	star.body = nil;
+	star.fixture = nil;
+	[self removeChild:star cleanup:YES];
+	star = nil;
+}
+
 - (void) startRun
 {
 	TRACE(@"[start run]");
@@ -260,6 +274,10 @@
 	[self stopAllActions];
 	[self removeActor];
 	
+    for (SoundStar *star in stars) {
+        [self removeStar:star];
+    }
+    
 	firstPath = YES;
 	moving = NO;
 	active = NO;
@@ -394,7 +412,14 @@
 				{
 					//TRACE(@"grounded: %d, %d", grounded, actor.grounded);
 					grounded = YES;
-				}	
+				} else if ([dataB isKindOfClass:[SoundStar class]])
+                {
+                    // actor collided with star
+            
+                    // star needs to be destroyed
+                    [(SoundStar *)dataB destroy];
+                    [delegate addPoints:1];
+                }
 			}
 			else if([dataA isKindOfClass:[Path class]])
 			{
@@ -402,8 +427,31 @@
 				{
 					//TRACE(@"grounded: %d, %d", grounded, actor.grounded);
 					grounded = YES;
-				}	
+				} else if ([dataB isKindOfClass:[SoundStar class]])
+                {
+                    // path collided with star
+                    
+                    // star needs to be destroyed
+                    [(SoundStar *)dataB destroy];
+                }
 			}
+            else if([dataA isKindOfClass:[SoundStar class]])
+			{
+				if([dataB isKindOfClass:[Actor class]])	
+				{
+                    // star collided wtih actor
+                    [(SoundStar *)dataA destroy];
+                    [delegate addPoints:1];
+					
+				} else if ([dataB isKindOfClass:[Path class]])
+                {
+                    // star collided with path
+                    
+                    // star needs to be destroyed
+                    [(SoundStar *)dataA destroy];
+                }
+			}
+            
 		}
 		if(actor.grounded != grounded) {
 			actor.grounded = grounded;
@@ -417,19 +465,19 @@
 - (void) updateElements
 {		
 	
-//	int total = [stars count];
-//	for (int i = total - 1; i >= 0; i--) 
-//	{
-//		SoundStar *thisStar = [stars objectAtIndex:i];
-//		if(thisStar.position.y < 0) {
-//			[thisStar destroy:world];
-//			[self removeChild:thisStar cleanup:YES];
-//			[stars removeObjectAtIndex:i];
-//		}
-//	}
-//	
-//	
-//	TRACE(@"total bullets, %d", [stars count]);
+	int total = [stars count];
+	for (int i = total - 1; i >= 0; i--) 
+	{
+		SoundStar *thisStar = [stars objectAtIndex:i];
+		if(thisStar.tag == ObjectTypeRemoving) {
+			//[thisStar destroy:world];
+            [self removeStar:thisStar];
+			//[self removeChild:thisStar cleanup:YES];
+			[stars removeObjectAtIndex:i];
+		}
+	}
+	
+	TRACE(@"total stars, %d", [stars count]);
 //		
 //	if(moving == YES)
 //	{
@@ -455,13 +503,15 @@
 	firstRun = NO;
 	timestamp = [startTime timeIntervalSinceNow]; 
 	
-	SoundStar *star = [SoundStar node];
-	[star addToWorld:world location:ccp(150, 250)];
-	[self addChild:star z:8];
-	star.delegate = self;
-	
-	
-	[stars addObject:star];
+//	SoundStar *star = [SoundStar node];
+//    
+//	[star addToWorld:world location:ccp(250, 250)];
+//    
+//	[self addChild:star];
+//	star.delegate = self;
+//	
+//	
+//	[stars addObject:star];
 }
 
 //- (void) removeBullet:(Bullet *)item

@@ -56,7 +56,7 @@
 //#endif
 		
 		scoreLabel = [CCLabelBMFont labelWithString:@"0" fntFile:[[Properties sharedProperties] fontNameForType:FontTypeScore]];
-		scoreLabel.anchorPoint = ccp(0.5, 0.5);
+		scoreLabel.anchorPoint = ccp(0, 0.5);
 		scoreLabel.position = ccp(padding, winSize.height - padding);
 		[self addChild:scoreLabel];
 				

@@ -48,10 +48,12 @@
     return [self initWithColumn:0];
 }
 
+/*
 - (SoundStar *)dropStar
 {
     
 }
+*/
 
 - (float)getBarHeight
 {

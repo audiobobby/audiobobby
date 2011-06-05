@@ -12,6 +12,7 @@
 
 @synthesize fixture, body;
 @synthesize delegate;
+@synthesize sprite;
 
 -(id) init
 {
@@ -52,12 +53,10 @@
 	self.fixture = self.body->CreateFixture(&fixtureDef);
 }
 
-- (void) destroy:(b2World *)world
+- (void) destroy
 {
 	//TRACE(@"destroy path");
-	world->DestroyBody(body);
-	body = nil;
-	fixture = nil;
+	self.tag = ObjectTypeRemoving;
 }
 
 - (void) update:(ccTime)dt
