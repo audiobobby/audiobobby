@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>frames</key>
+	<dict>
+		<key>rb_0001.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{364, 1}, {120, 128}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{4, 0}, {120, 128}}</string>
+			<key>sourceSize</key>
+			<string>{128, 128}</string>
+		</dict>
+		<key>rb_0002.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{122, 130}, {120, 128}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{4, 0}, {120, 128}}</string>
+			<key>sourceSize</key>
+			<string>{128, 128}</string>
+		</dict>
+		<key>rb_0003.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1, 259}, {120, 128}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{4, 0}, {120, 128}}</string>
+			<key>sourceSize</key>
+			<string>{128, 128}</string>
+		</dict>
+		<key>rb_0004.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{364, 130}, {120, 128}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{4, 0}, {120, 128}}</string>
+			<key>sourceSize</key>
+			<string>{128, 128}</string>
+		</dict>
+		<key>rb_0005.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1, 1}, {120, 128}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{4, 0}, {120, 128}}</string>
+			<key>sourceSize</key>
+			<string>{128, 128}</string>
+		</dict>
+		<key>rb_0006.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{243, 130}, {120, 128}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{4, 0}, {120, 128}}</string>
+			<key>sourceSize</key>
+			<string>{128, 128}</string>
+		</dict>
+		<key>rb_0007.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{1, 130}, {120, 128}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{4, 0}, {120, 128}}</string>
+			<key>sourceSize</key>
+			<string>{128, 128}</string>
+		</dict>
+		<key>rb_0008.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{243, 1}, {120, 128}}</string>
+			<key>offset</key>
+			<string>{4, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{8, 0}, {120, 128}}</string>
+			<key>sourceSize</key>
+			<string>{128, 128}</string>
+		</dict>
+		<key>rb_0009.png</key>
+		<dict>
+			<key>frame</key>
+			<string>{{122, 1}, {120, 128}}</string>
+			<key>offset</key>
+			<string>{0, -0}</string>
+			<key>sourceColorRect</key>
+			<string>{{4, 0}, {120, 128}}</string>
+			<key>sourceSize</key>
+			<string>{128, 128}</string>
+		</dict>
+	</dict>
+	<key>metadata</key>
+	<dict>
+		<key>format</key>
+		<integer>1</integer>
+		<key>size</key>
+		<string>{512, 512}</string>
+	</dict>
+</dict>
+</plist>

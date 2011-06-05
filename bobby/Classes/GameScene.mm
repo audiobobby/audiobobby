@@ -111,6 +111,9 @@
 		[tips hide];
 	}
 	
+	
+	[[SimpleAudioEngine sharedEngine] playEffect:@"music.caf"];
+	
 	score = 0;
 	elapsed = 0;
 	lives = MAX_LIVES;

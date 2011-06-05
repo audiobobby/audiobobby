@@ -63,15 +63,15 @@
 		[self addChild:pauseButton];
 		
 		leftBtn = [Button buttonWithImage:PNG(@"btn_Left") onImage:PNG(@"btn_LeftHit") 
-													 atPosition:ccp(xpad + padding, padding) target:self selector:@selector(moveLeft:) rapid:YES];
+													 atPosition:ccp(int(xpad + padding), padding) target:self selector:@selector(moveLeft:) rapid:YES];
 		[self addChild:leftBtn];
 
 		rightBtn = [Button buttonWithImage:PNG(@"btn_Right") onImage:PNG(@"btn_RightHit") 
-														atPosition:ccp(xpad + padding + buttonWidth*2, padding) target:self selector:@selector(moveRight:) rapid:YES];
+														atPosition:ccp((int)(xpad + padding + buttonWidth*2), padding) target:self selector:@selector(moveRight:) rapid:YES];
 		[self addChild:rightBtn];
 		
 		jumpBtn = [Button buttonWithImage:PNG(@"btn_Up") onImage:PNG(@"btn_UpHit") 
-													 atPosition:ccp(winSize.width-padding - xpad, padding) target:self selector:@selector(moveUp:) rapid:YES];
+													 atPosition:ccp((int)winSize.width-padding - xpad, padding) target:self selector:@selector(moveUp:) rapid:YES];
 		[self addChild:jumpBtn];
 		
 		//self.position = ccp(0, winSize.height + winSize.height/10.0);

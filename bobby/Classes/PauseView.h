@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface TipsView : UIViewController {
+@interface PauseView : UIViewController {
 
 }
 
