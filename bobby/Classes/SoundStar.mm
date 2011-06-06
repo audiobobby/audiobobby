@@ -13,6 +13,7 @@
 @synthesize fixture, body;
 @synthesize delegate;
 @synthesize sprite;
+@synthesize didHitActor;
 
 -(id) init
 {

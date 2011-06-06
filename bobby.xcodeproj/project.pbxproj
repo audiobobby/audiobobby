@@ -335,6 +335,9 @@
 		C7C9C64A139C406F00177800 /* btn_Check.png in Resources */ = {isa = PBXBuildFile; fileRef = C7C9C648139C406E00177800 /* btn_Check.png */; };
 		D95FA604139C1182007A8842 /* libAudioGameKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D95FA603139C1182007A8842 /* libAudioGameKit.a */; };
 		D95FA606139C1227007A8842 /* AGKMediaSelector.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95FA605139C1227007A8842 /* AGKMediaSelector.xib */; };
+		D9BBA1DE139C457B00B9C80B /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9BBA1DA139C457B00B9C80B /* CoreAudio.framework */; };
+		D9BBA1DF139C457B00B9C80B /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9BBA1DC139C457B00B9C80B /* CoreMedia.framework */; };
+		D9BBA1E0139C457B00B9C80B /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9BBA1DD139C457B00B9C80B /* MediaPlayer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -967,6 +970,10 @@
 		D95FA5F8139C115B007A8842 /* AudioGameKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AudioGameKit.xcodeproj; path = vendors/AudioGameKit/AudioGameKit.xcodeproj; sourceTree = "<group>"; };
 		D95FA603139C1182007A8842 /* libAudioGameKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libAudioGameKit.a; sourceTree = SOURCE_ROOT; };
 		D95FA605139C1227007A8842 /* AGKMediaSelector.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AGKMediaSelector.xib; path = vendors/AudioGameKit/AudioGameKit/AGKMediaSelector.xib; sourceTree = SOURCE_ROOT; };
+		D9BBA1DA139C457B00B9C80B /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		D9BBA1DB139C457B00B9C80B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		D9BBA1DC139C457B00B9C80B /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		D9BBA1DD139C457B00B9C80B /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -974,6 +981,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D9BBA1DE139C457B00B9C80B /* CoreAudio.framework in Frameworks */,
+				C79CD4BD139AA26200D603D3 /* CoreGraphics.framework in Frameworks */,
+				D9BBA1DF139C457B00B9C80B /* CoreMedia.framework in Frameworks */,
+				D9BBA1E0139C457B00B9C80B /* MediaPlayer.framework in Frameworks */,
 				D95FA604139C1182007A8842 /* libAudioGameKit.a in Frameworks */,
 				AB543F4D139B2B81001ADF27 /* MessageUI.framework in Frameworks */,
 				AB543F4B139B2B4A001ADF27 /* Security.framework in Frameworks */,
@@ -986,7 +997,6 @@
 				C79CD4B7139AA26200D603D3 /* AVFoundation.framework in Frameworks */,
 				C79CD4B9139AA26200D603D3 /* UIKit.framework in Frameworks */,
 				C79CD4BB139AA26200D603D3 /* Foundation.framework in Frameworks */,
-				C79CD4BD139AA26200D603D3 /* CoreGraphics.framework in Frameworks */,
 				C79CD6F9139AABFE00D603D3 /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1497,6 +1507,10 @@
 		C79CD4AD139AA26200D603D3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D9BBA1DA139C457B00B9C80B /* CoreAudio.framework */,
+				D9BBA1DB139C457B00B9C80B /* CoreGraphics.framework */,
+				D9BBA1DC139C457B00B9C80B /* CoreMedia.framework */,
+				D9BBA1DD139C457B00B9C80B /* MediaPlayer.framework */,
 				AB543F4C139B2B81001ADF27 /* MessageUI.framework */,
 				AB543F4A139B2B4A001ADF27 /* Security.framework */,
 				C79CD6FC139AAE6200D603D3 /* SystemConfiguration.framework */,
@@ -2667,13 +2681,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = bobby/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/vendors/AudioGameKit/AudioGameKit/\"";
 				INFOPLIST_FILE = bobby/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/bobby/Classes/FlurryLib\"",
-					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/vendors/AudioGameKit/AudioGameKit\"",
 				);
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2691,12 +2704,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = bobby/Prefix.pch;
 				"GCC_THUMB_SUPPORT[arch=armv6]" = "";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/vendors/AudioGameKit/AudioGameKit/\"";
 				INFOPLIST_FILE = bobby/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/bobby/Classes/FlurryLib\"",
-					"\"$(SRCROOT)\"",
 				);
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = "$(TARGET_NAME)";

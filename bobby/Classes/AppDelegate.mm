@@ -16,6 +16,7 @@
 #import "FlurryAPI.h"
 #import "MainScene.h"
 
+
 @implementation AppDelegate
 
 @synthesize window;
@@ -59,6 +60,30 @@
 		CC_ENABLE_DEFAULT_GL_STATES();
 	
 #endif // GAME_AUTOROTATION == kGameAutorotationUIViewController	
+}
+
+
+- (void) showMusicPicker { 
+    if (!mediaSelector)
+    {
+        mediaSelector = [[AGKMediaSelector alloc] initWithNibName:nil bundle:nil];
+        mediaSelector.delegate = self;
+    }
+    
+    [viewController presentModalViewController:mediaSelector animated:YES];
+   
+}
+
+
+- (void) mediaSelector:(AGKMediaSelector *)selector didSelectMediaSession:(AGKMediaSession *) session {
+    [viewController dismissModalViewControllerAnimated:YES];
+    [session retain];
+    [session play];
+    
+}
+
+- (void) mediaSelectorDidCancel:(AGKMediaSelector *)selector {
+    [viewController dismissModalViewControllerAnimated:YES];
 }
 
 - (void) applicationDidFinishLaunching:(UIApplication*)application
@@ -166,10 +191,10 @@
 	//[director runWithScene: [GameScene scene]];
 #endif
 	
-	// Turn on multiple touches
+
 	EAGLView *view = [director openGLView];
 	[view setMultipleTouchEnabled:YES];
-	
+	[self showMusicPicker];
 	
 }
 
@@ -231,6 +256,9 @@
 {	
 	//[popSound play];
 }
+
+
+
 
 
 

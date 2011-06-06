@@ -420,7 +420,8 @@
             
                     // star needs to be destroyed
                     [(SoundStar *)dataB destroy];
-                    [delegate addPoints:1];
+                    [(SoundStar *)dataB setDidHitActor:YES];
+                    
                 }
 			}
 			else if([dataA isKindOfClass:[Path class]])
@@ -443,7 +444,7 @@
 				{
                     // star collided wtih actor
                     [(SoundStar *)dataA destroy];
-                    [delegate addPoints:1];
+                    [(SoundStar *)dataA setDidHitActor:YES];
 					
 				} else if ([dataB isKindOfClass:[Path class]])
                 {
@@ -472,6 +473,9 @@
 	{
 		SoundStar *thisStar = [stars objectAtIndex:i];
 		if(thisStar.tag == ObjectTypeRemoving) {
+            if (thisStar.didHitActor) {
+                [delegate addPoints:1];
+            }
 			//[thisStar destroy:world];
             [self removeStar:thisStar];
 			//[self removeChild:thisStar cleanup:YES];

@@ -18,12 +18,15 @@
 	b2Body *body;
 	id <GameDelegate> delegate;
 	int aFrame, totalFrames;
+    BOOL didHitActor;
 }
 @property (nonatomic, retain) CCSprite *sprite;
 
 @property (nonatomic, assign) id <GameDelegate> delegate;
 @property (nonatomic, assign) b2Fixture *fixture;
 @property (nonatomic, assign) b2Body *body;
+
+@property (nonatomic, readwrite) BOOL didHitActor;
 
 - (void) addToWorld:(b2World *)world location:(CGPoint)pos;
 - (void) destroy;

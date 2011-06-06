@@ -7,17 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AGKMediaSelector.h"
 
 @class SoundEffect;
 @class RootViewController;
 
-@interface AppDelegate : NSObject <UIApplicationDelegate, UIAlertViewDelegate> 
+@interface AppDelegate : NSObject <AGKMediaSelectorDelegate,UIApplicationDelegate, UIAlertViewDelegate> 
 {
 	UIWindow *window;
 	int alertType;
 	RootViewController *viewController;
+    AGKMediaSelector *mediaSelector;
 }
 
 @property (nonatomic, retain) UIWindow *window;
+
+- (void)showMusicPicker;
 
 @end
