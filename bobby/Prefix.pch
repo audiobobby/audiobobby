@@ -12,4 +12,9 @@
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
 #import "Properties.h"
+
+#import <MediaPlayer/MediaPlayer.h>
+#import <AVFoundation/AVFoundation.h>
+#import <CoreMedia/CoreMedia.h>
+
 #endif

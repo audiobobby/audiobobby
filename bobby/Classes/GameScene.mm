@@ -18,6 +18,9 @@
 #import "MainScene.h"
 #import "FinalScene.h"
 
+#import "AGKMediaSession.h"
+#import "AppDelegate.h"
+
 @interface GameScene (internal)
 - (void) destroy;
 - (void) showSplash;
@@ -132,6 +135,9 @@
 	[self schedule:@selector(tick:) interval:0.5];	
 	
 	[world initRun];
+    
+    [((AppDelegate *)[UIApplication sharedApplication].delegate).session setDelegate:world];
+     [((AppDelegate *)[UIApplication sharedApplication].delegate).session play];
 }
 
 - (void) pauseGame

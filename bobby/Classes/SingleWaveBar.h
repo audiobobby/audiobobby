@@ -3,7 +3,6 @@
 //  bobby
 //
 //  Created by Omid Mikhchi on 6/4/11.
-//  Copyright 2011 Style Page Inc. All rights reserved.
 //
 
 #import "cocos2d.h"

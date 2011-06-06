@@ -33,6 +33,7 @@
 	NSMutableArray *groundAngles;
 	
 	b2World *world;
+    int blah;
 
 	
 	GLESDebugDraw *m_debugDraw;

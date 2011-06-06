@@ -7,7 +7,9 @@
 //
 
 #import "SingleWaveBar.h"
-
+#import "AppDelegate.h"
+#import "AGKMediaSelector.h"
+#import "AGKMediaSession.h"
 
 #import "World.h"
 #import "Actor.h"
@@ -60,6 +62,8 @@
 {
 	if( (self=[super init])) 
 	{	
+        
+        
 		firstRun = YES;
 		winSize = [CCDirector sharedDirector].winSize;
 		cloudSpeedRatio = ([[Properties sharedProperties] isLowRes]) ? 10 : 5;
@@ -591,10 +595,21 @@
 {
     
 }
-
 - (void)mediaSession:(AGKMediaSession *)session max:(float)max average:(float)average
 {
-    [[bars objectAtIndex:0] setBarHeight:average];
+    
+    float avg = (average*-1)/26;
+    
+    for (SingleWaveBar *bar in bars) {
+        float b = avg + ((arc4random() % 10) * 0.035);
+        [bar setBarHeight:b];
+    }
+    
+  //[[bars objectAtIndex:0] setBarHeight:(average*-1)/30];
+    /*
+    [[bars objectAtIndex:blah%[bars count]] setBarHeight:(average*-1)/30];
+    blah++;
+     */
 }
 
 @end
