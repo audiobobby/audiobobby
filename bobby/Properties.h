@@ -88,6 +88,7 @@ typedef enum {
 	int totalSessions;
 	int counter;
 	BOOL hint;
+	BOOL moonwalk;
 	BOOL audio;
 	BOOL music;
 	BOOL submit;
@@ -128,6 +129,7 @@ typedef enum {
 @property (nonatomic, assign) BOOL ratingPrompted;
 @property (nonatomic, assign) BOOL gamecenter;
 @property (nonatomic, assign) BOOL ready;
+@property (nonatomic, assign) BOOL moonwalk;
 @property (nonatomic, assign) float musicVolume;
 @property (nonatomic, assign) float effectVolume;
 @property (nonatomic, retain) NSString *username;

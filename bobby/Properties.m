@@ -17,7 +17,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Properties);
 @synthesize audio, music, newHigh, percentage, submit, lastScore;
 @synthesize scale, prompted, paused, level, ratingPrompted;
 @synthesize coordinateDict, gamecenter, tips, counter, ready;
-@synthesize songList, effectVolume, musicVolume, totalSessions, resetLevel;
+@synthesize songList, effectVolume, musicVolume, totalSessions, resetLevel, moonwalk;
 
 - (void) load
 {
@@ -48,6 +48,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Properties);
 	prompted = [[NSUserDefaults standardUserDefaults] boolForKey:@"prompted"];
 	ratingPrompted = [[NSUserDefaults standardUserDefaults] boolForKey:@"ratingPrompted"];
 	tips = [[NSUserDefaults standardUserDefaults] boolForKey:@"tips"];
+	moonwalk = [[NSUserDefaults standardUserDefaults] boolForKey:@"moonwalk"];
 	
 #if DEBUG_MODE
 	//tips = YES;

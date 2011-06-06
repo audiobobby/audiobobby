@@ -10,9 +10,10 @@
 
 
 @interface PauseView : UIViewController {
-
+	IBOutlet UIButton *soundBtn, *moonwalkBtn;
 }
 
-- (void) close:(id)sender;
+- (IBAction) endGame:(id)sender;
+- (IBAction) resume:(id)sender;
 
 @end

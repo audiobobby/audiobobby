@@ -22,12 +22,32 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
+	soundBtn.selected = [Properties sharedProperties].audio;
+	moonwalkBtn.selected = [Properties sharedProperties].moonwalk;
+	
+	[soundBtn addTarget:self action:@selector(updatePref:) forControlEvents:UIControlEventTouchDown];
+	[moonwalkBtn addTarget:self action:@selector(updatePref:) forControlEvents:UIControlEventTouchDown];
 }
-*/
+
+- (void) updatePref:(id)sender
+{
+	if(soundBtn == sender)
+	{
+		soundBtn.selected = !soundBtn.selected;
+		[Properties sharedProperties].audio = soundBtn.selected;
+		[[NSUserDefaults standardUserDefaults] setBool:soundBtn.selected forKey:@"audio"];
+	}
+	else if(moonwalkBtn == sender)
+	{
+		moonwalkBtn.selected = !moonwalkBtn.selected;
+		[Properties sharedProperties].moonwalk = moonwalkBtn.selected;
+		[[NSUserDefaults standardUserDefaults] setBool:moonwalkBtn.selected forKey:@"moonwalk"];
+	}
+}
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -37,10 +57,18 @@
 }
 */
 
-- (void) close:(id)sender
+- (IBAction) endGame:(id)sender
 {
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"EndGame" object:nil];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"RemovePopup" object:nil];
 }
+
+- (IBAction) resume:(id)sender
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"ResumeGame" object:nil];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"RemovePopup" object:nil];
+}
+
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.

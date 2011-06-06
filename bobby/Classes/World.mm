@@ -15,7 +15,7 @@
 #import "Path.h"
 
 #if DEBUG_MODE
-	#define DEBUG_PHYSIC 1
+	#define DEBUG_PHYSIC 0
 #else
 	#define DEBUG_PHYSIC 0
 #endif
@@ -58,11 +58,13 @@
 		startTime = [[NSDate date] retain];
 		
 		b2Vec2 gravity;
-		if([[Properties sharedProperties] isLowResIPhone] == NO) {
-			gravity.Set(0.0f, -20.0f);
-		} else {
-			gravity.Set(0.0f, -10.0f);
-		}
+		gravity.Set(0.0f, -10.0f);
+		
+//		if([[Properties sharedProperties] isLowResIPhone] == NO) {
+//			gravity.Set(0.0f, -20.0f);
+//		} else {
+//			gravity.Set(0.0f, -10.0f);
+//		}
 		
 		// Do we want to let bodies sleep?
 		// This will speed up the physics simulation

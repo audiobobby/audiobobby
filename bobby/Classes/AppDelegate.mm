@@ -133,7 +133,7 @@
 	
 	[director setAnimationInterval:1.0/60];
 #if DEBUG_MODE
-	[director setDisplayFPS:YES];
+	//[director setDisplayFPS:YES];
 #endif
 	
 	
@@ -162,13 +162,13 @@
 #if !DEBUG_MODE
 	[director runWithScene: [MainScene scene]];
 #else
-	[director runWithScene: [GameScene scene]];
+	[director runWithScene: [MainScene scene]];
+	//[director runWithScene: [GameScene scene]];
 #endif
-	//[director runWithScene: [IntroScene scene]];
 	
 	// Turn on multiple touches
-	//EAGLView *view = [director openGLView];
-	//[view setMultipleTouchEnabled:YES];
+	EAGLView *view = [director openGLView];
+	[view setMultipleTouchEnabled:YES];
 	
 	
 }

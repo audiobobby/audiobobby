@@ -25,7 +25,7 @@
 	{	
 		self.tag = ObjectTypeActor;
 		
-		CCSpriteBatchNode *sheet4 = [CCSpriteBatchNode batchNodeWithFile:@"bobby.png" capacity:10];
+		CCSpriteBatchNode *sheet4 = [CCSpriteBatchNode batchNodeWithFile:@"bobby.png" capacity:14];
 		[self addChild:sheet4];
 		[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"bobby.plist"];
 		
@@ -37,7 +37,7 @@
 		
 		animationFrames = [[NSMutableArray alloc] initWithCapacity:10];
 		allFrames = [[NSMutableArray alloc] initWithCapacity:10];
-		for(int i = 1; i <= 9; i++)
+		for(int i = 1; i <= 13; i++)
 		{
 			CCSpriteFrame *sf = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"rb%04d.png",i]];
 			[allFrames addObject:sf];
@@ -90,7 +90,7 @@
 				{
 					TRACE(@"jump count: %d", jumpCount);
 					b2Vec2 center = self.body->GetWorldCenter();
-					float impulse = (grounded == YES) ? self.radius * 20 : self.radius * 12;
+					float impulse = (grounded == YES) ? self.radius * 20 : self.radius * 8;
 					self.body->ApplyLinearImpulse(b2Vec2(0.0, impulse), center);
 					[[SimpleAudioEngine sharedEngine] playEffect:@"jump.caf"];
 					self.mode = AnimationJumping;
@@ -101,14 +101,26 @@
 			
 		case MoveActionLeft:
 			self.body->SetLinearVelocity(b2Vec2(speed*-1, 0));
-			self.mode = AnimationRunning;
-			sprite.flipX = YES;
+			if([Properties sharedProperties].moonwalk == NO) 
+			{
+				sprite.flipX = YES;
+			} else {
+				sprite.flipX = NO;
+			}
+				self.mode = AnimationRunning;
 			break;
 			
 		case MoveActionRight:
 			self.body->SetLinearVelocity(b2Vec2(speed, 0));
+			if([Properties sharedProperties].moonwalk == NO) 
+			{
+				sprite.flipX = NO;
+			}
+			else
+			{
+				sprite.flipX = YES;
+			}
 			self.mode = AnimationRunning;
-			sprite.flipX = NO;
 			break;
 			
 		case MoveActionIdle:
@@ -149,7 +161,7 @@
 	[animationFrames removeAllObjects];
 	switch (mode) {
 		case AnimationRunning:
-			for (int i = 7; i <= 8; i++) {
+			for (int i = 10; i <= 13; i++) {
 				[animationFrames addObject:[allFrames objectAtIndex:i-1]];
 			}
 			break;

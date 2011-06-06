@@ -68,8 +68,8 @@
 		
 		[self addChild:leaderBoardBtn];
 		
-		Button *shareBtn = [Button buttonWithImage:PNG(@"btnShare") 
-										   onImage:PNG(@"btnShareHit") 
+		Button *shareBtn = [Button buttonWithImage:PNG(@"btn_Share") 
+										   onImage:PNG(@"btn_ShareHit") 
 										atPosition:ccp(winSize.width*0.75f, winSize.height * 0.1f) 
 											target:self 
 										  selector:@selector(onShare)
@@ -77,8 +77,8 @@
 		
 		[self addChild:shareBtn];
 		
-		Button *newGameBtn = [Button buttonWithImage:PNG(@"btnEndNewSong") 
-											 onImage:PNG(@"btnEndNewSongHit") 
+		Button *newGameBtn = [Button buttonWithImage:PNG(@"btn_EndNewSong") 
+											 onImage:PNG(@"btn_EndNewSongHit") 
 										  atPosition:ccp(winSize.width*0.5f, winSize.height * 0.38f) 
 											  target:self 
 											selector:@selector(onRestart)
@@ -141,8 +141,10 @@
 
 #pragma mark - Event handlers
 
--(void) onLeaderboard{
-	
+-(void) onLeaderboard
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"ShowLeaderboards" object:nil];
+/*
 	UIViewController			*controller;
 	__block GKLeaderboardViewController	*leaderboardController;
 	
@@ -166,7 +168,7 @@
 		}
 		
 	}];
-
+*/
 }
 
 -(void) onShare{

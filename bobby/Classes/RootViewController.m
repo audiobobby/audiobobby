@@ -43,16 +43,16 @@
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onShowLeaderboards:) name:@"ShowLeaderboards" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onShowAchievements:) name:@"ShowAchievements" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onRemovePopup:) name:@"RemovePopup" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onShowPausePanel:) name:@"ShowPausePanel" object:nil];
+		//		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onShowPausePanel:) name:@"ShowPausePanel" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onShowPromptPanel:) name:@"PromptSubmit" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPromptRating:) name:@"PromptRating" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSubmitScore:) name:@"SubmitScore" object:nil];
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onSubmitAchievement:) name:@"SubmitAchievement" object:nil];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onShowPause:) name:@"ShowTips" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onShowPause:) name:@"ShowPausePanel" object:nil];
 		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onShowBanner:) name:@"ShowBanner" object:nil];
 		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHideBanner:) name:@"HideBanner" object:nil];
 		
-#if !defined(LITE_APP)
+#if !DEBUG_MODE
 		if([GameCenterManager isGameCenterAvailable])
 		{
 			TRACE(@"authenticating...");
