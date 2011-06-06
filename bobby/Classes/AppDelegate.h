@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AGKMediaSelector.h"
+#import "AGKMediaSession.h"
 
 @class SoundEffect;
 @class RootViewController;
@@ -18,10 +19,11 @@
 	int alertType;
 	RootViewController *viewController;
     AGKMediaSelector *mediaSelector;
+	AGKMediaSession *session;
 }
 
 @property (nonatomic, retain) UIWindow *window;
+@property (nonatomic, retain) AGKMediaSession *session;
 
 - (void)showMusicPicker;
-
 @end
