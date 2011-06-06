@@ -29,6 +29,6 @@
 - (void)setBarHeight:(float)height;
 - (float)getBarHeight;
 
-- (SoundStar *)dropStar;
+//- (SoundStar *)dropStar;
 
 @end
