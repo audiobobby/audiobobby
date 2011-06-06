@@ -9,6 +9,7 @@
 #import "MainScene.h"
 #import "GameScene.h"
 #import "Button.h"
+#import "AppDelegate.h"
 
 @interface MainScene(private)
 
@@ -101,6 +102,7 @@
 
 - (void) playGame
 {	
+	//[(AppDelegate *)[UIApplication sharedApplication].delegate showMusicPicker];
 	[[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5f scene:[GameScene scene]]];
 }
 

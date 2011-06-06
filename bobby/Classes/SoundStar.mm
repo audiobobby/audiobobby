@@ -7,6 +7,7 @@
 //
 
 #import "SoundStar.h"
+#import "SimpleAudioEngine.h"
 
 @implementation SoundStar
 
@@ -68,6 +69,7 @@
 	aFrame = 0;
 	totalFrames = [animationFrames count];
 	[self schedule:@selector(update:) interval:1/15.0];
+	//[[SimpleAudioEngine sharedEngine] playEffect:@"error.caf"];
 }
 
 - (void) update:(ccTime)dt
