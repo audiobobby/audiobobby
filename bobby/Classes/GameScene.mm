@@ -41,6 +41,10 @@
 		
 		//CGSize size = [[CCDirector sharedDirector] winSize];
 		
+		CCSpriteBatchNode *sheet = [CCSpriteBatchNode batchNodeWithFile:@"bobby.png" capacity:14];
+		[self addChild:sheet];
+		[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"bobby.plist"];
+		
 		if([[Properties sharedProperties] isLowResIPhone])
 		{
 			CCSprite *back = [CCSprite spriteWithFile:@"background.png"];
@@ -112,7 +116,7 @@
 	}
 	
 	
-	[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"music.caf" loop:YES];
+	//[[SimpleAudioEngine sharedEngine] playBackgroundMusic:@"music.caf" loop:YES];
 	
 	score = 0;
 	elapsed = 0;

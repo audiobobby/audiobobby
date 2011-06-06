@@ -53,14 +53,14 @@
 		//[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onHideBanner:) name:@"HideBanner" object:nil];
 		
 #if !DEBUG_MODE
-		if([GameCenterManager isGameCenterAvailable])
-		{
-			TRACE(@"authenticating...");
-			self.gameCenterManager = [[[GameCenterManager alloc] init] autorelease];
-			[self.gameCenterManager setDelegate: self];
-			[self.gameCenterManager authenticateLocalUser];
-			[Properties sharedProperties].gamecenter = YES;
-		}
+//		if([GameCenterManager isGameCenterAvailable])
+//		{
+//			TRACE(@"authenticating...");
+//			self.gameCenterManager = [[[GameCenterManager alloc] init] autorelease];
+//			[self.gameCenterManager setDelegate: self];
+//			[self.gameCenterManager authenticateLocalUser];
+//			[Properties sharedProperties].gamecenter = YES;
+//		}
 #endif
 	
 	}

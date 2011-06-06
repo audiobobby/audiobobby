@@ -19,6 +19,12 @@
 	if( (self=[super init])) 
 	{	
 		self.tag = ObjectTypeStar;
+		animationFrames = [[NSMutableArray alloc] init];
+		for (int i = 1; i <= 5; i++) 
+		{
+			CCSpriteFrame *sf = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"star%04d.png",i]];
+			[animationFrames addObject:sf];
+		}
 		_sprite = [CCSprite spriteWithFile:@"star.png"];
 		[self addChild:_sprite];
 	}
@@ -55,18 +61,33 @@
 
 - (void) destroy
 {
-	//TRACE(@"destroy path");
+	if(self.tag == ObjectTypeRemoving) return;
+	TRACE(@"destroy star");
 	self.tag = ObjectTypeRemoving;
+	aFrame = 0;
+	totalFrames = [animationFrames count];
+	[self schedule:@selector(update:) interval:1/15.0];
 }
 
 - (void) update:(ccTime)dt
 {
-    NSLog(@"OMID!");
+	if(aFrame < totalFrames)
+	{
+		CCSpriteFrame *sf = [animationFrames objectAtIndex:aFrame];
+		[_sprite setDisplayFrame:sf];
+		aFrame++;
+	}
+	else
+	{
+		self.visible = NO;
+		[self schedule:@selector(update:)];
+	}
 }
 
 - (void) dealloc
 {
 	//TRACE(@"dealloc path omid");
+	[animationFrames release];
 	[super dealloc];
 }
 

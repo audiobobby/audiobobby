@@ -25,9 +25,6 @@
 	{	
 		self.tag = ObjectTypeActor;
 		
-		CCSpriteBatchNode *sheet4 = [CCSpriteBatchNode batchNodeWithFile:@"bobby.png" capacity:14];
-		[self addChild:sheet4];
-		[[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"bobby.plist"];
 		
 		sprite = [CCSprite spriteWithSpriteFrameName:@"rb0001.png"];
 		[sprite.texture setAliasTexParameters];
@@ -211,7 +208,7 @@
 	[self removeChild:sprite cleanup:YES];
 	[animationFrames release];
 	[allFrames release];
-	[[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFrames];
+	//[[CCSpriteFrameCache sharedSpriteFrameCache] removeSpriteFrames];
 	[super dealloc];
 }
 

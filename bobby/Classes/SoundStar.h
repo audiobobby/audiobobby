@@ -13,10 +13,11 @@
 @interface SoundStar : CCNode 
 {
     CCSprite *_sprite;
-    
+  NSMutableArray *animationFrames;  
 	b2Fixture *fixture;
 	b2Body *body;
 	id <GameDelegate> delegate;
+	int aFrame, totalFrames;
 }
 @property (nonatomic, retain) CCSprite *sprite;
 
