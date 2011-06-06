@@ -102,8 +102,8 @@
 
 - (void) playGame
 {	
-	//[(AppDelegate *)[UIApplication sharedApplication].delegate showMusicPicker];
-	[[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5f scene:[GameScene scene]]];
+	[(AppDelegate *)[UIApplication sharedApplication].delegate showMusicPicker];
+	//[[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5f scene:[GameScene scene]]];
 }
 
 - (void) onEnter

@@ -79,7 +79,7 @@
     [viewController dismissModalViewControllerAnimated:YES];
     [session retain];
     [session play];
-    
+    [[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5f scene:[GameScene scene]]];
 }
 
 - (void) mediaSelectorDidCancel:(AGKMediaSelector *)selector {
@@ -194,7 +194,7 @@
 
 	EAGLView *view = [director openGLView];
 	[view setMultipleTouchEnabled:YES];
-	[self showMusicPicker];
+	//[self showMusicPicker];
 	
 }
 
