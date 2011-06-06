@@ -19,7 +19,7 @@
 
 @implementation AppDelegate
 
-@synthesize window;
+@synthesize window, session;
 
 + (void)initialize
 {
@@ -77,8 +77,10 @@
 
 - (void) mediaSelector:(AGKMediaSelector *)selector didSelectMediaSession:(AGKMediaSession *) session {
     [viewController dismissModalViewControllerAnimated:YES];
-    [session retain];
-    [session play];
+	self.session = session;
+	//[session retain];
+  //  [session play];
+		
     [[CCDirector sharedDirector] replaceScene:[CCTransitionFlipX transitionWithDuration:0.5f scene:[GameScene scene]]];
 }
 
