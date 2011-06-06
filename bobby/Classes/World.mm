@@ -50,9 +50,9 @@
             [stars addObject:star];
         }
         
-        float oldBarHeight = [bar getBarHeight];
+        //float oldBarHeight = [bar getBarHeight];
         
-        [bar setBarHeight:oldBarHeight+0.05*bar.tempWaveDirection];
+        //[bar setBarHeight:oldBarHeight+0.05*bar.tempWaveDirection];
     }
 }
 
@@ -568,6 +568,33 @@
 	[stars release];
 	
 	[super dealloc];
+}
+
+#pragma mark - AGK delegate methods
+
+- (void)mediaSessionDidStart:(AGKMediaSession *)session
+{
+    
+}
+
+- (void)mediaSessionDidEnd:(AGKMediaSession *)session
+{
+    
+}
+
+- (void)mediaSessionBeginInteruption:(AGKMediaSession *)session
+{
+    
+}
+
+- (void)mediaSessionEndInteruption:(AGKMediaSession *)session
+{
+    
+}
+
+- (void)mediaSession:(AGKMediaSession *)session max:(float)max average:(float)average
+{
+    [[bars objectAtIndex:0] setBarHeight:average];
 }
 
 @end

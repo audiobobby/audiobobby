@@ -12,6 +12,7 @@
 #import "Box2D.h"
 #import "GLES-Render.h"
 #import "MyContactListener.h"
+#import "AGKMediaSession.h"
 
 #define MAX_SHOT 1000
 #define TOTAL_WEAPONS 6
@@ -21,7 +22,7 @@
 @class SoundEffect;
 @class Path;
 
-@interface World : CCLayer <GameDelegate>
+@interface World : CCLayer <GameDelegate, AGKMediaSessionDelegate>
 {
     NSMutableArray *bars;
     
